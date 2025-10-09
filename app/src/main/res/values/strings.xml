@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name" translatable="false">AndroidSprint</string>
-    <string name="button_categories">categories</string>
-    <string name="button_favourites">favourites</string>
+    <string name="title_categories">categories</string>
+    <string name="title_favorites">favourites</string>
 </resources>
