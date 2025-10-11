@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:backgroundTint="@color/color_background_white"
+    android:background="@color/color_background_white"
     tools:context=".CategoriesListFragment">
 
     <TextView
