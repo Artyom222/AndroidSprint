@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+
 }
 
 android {
@@ -41,8 +42,8 @@ android {
 }
 
 dependencies {
-    implementation("androidx.fragment:fragment:1.8.9")
-    implementation("androidx.fragment:fragment-ktx:1.8.9")
+    implementation(libs.fragment)
+    implementation(libs.fragment.ktx)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
