@@ -3,9 +3,9 @@
     <style name="Base.Theme.AndroidSprint" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-        <item name="android:statusBarColor">@color/color_status_and_navigation_bar</item>
+        <item name="android:statusBarColor">@color/color_background_white</item>
         <item name="android:windowLightStatusBar">true</item>
-        <item name="android:navigationBarColor">@color/color_status_and_navigation_bar</item>
+        <item name="android:navigationBarColor">@color/color_background_white</item>
     </style>
 
     <style name="Theme.AndroidSprint" parent="Base.Theme.AndroidSprint" />
