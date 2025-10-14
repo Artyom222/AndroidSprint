@@ -1,11 +1,13 @@
 package ru.example.androidsprint
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import ru.example.androidsprint.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -29,8 +31,27 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.commit {
                 setReorderingAllowed(true)
                 add(R.id.mainContainer, CategoriesListFragment())
+
             }
         }
+
+        binding.categories.setOnClickListener() {
+            supportFragmentManager.commit {
+                replace<CategoriesListFragment>(R.id.mainContainer)
+                setReorderingAllowed(true)
+                addToBackStack("categories")
+            }
+
+        }
+
+        binding.favourites.setOnClickListener() {
+            supportFragmentManager.commit {
+                replace<FavoritesFragment>(R.id.mainContainer)
+                setReorderingAllowed(true)
+                addToBackStack("favorites")
+            }
+        }
+
     }
 
 }
