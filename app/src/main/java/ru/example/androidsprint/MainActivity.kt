@@ -1,6 +1,6 @@
 package ru.example.androidsprint
 
-import android.graphics.Color
+import androidx.fragment.app.Fragment
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -14,7 +14,8 @@ class MainActivity : AppCompatActivity() {
 
     private var _binding: ActivityMainBinding? = null
     private val binding
-        get() = _binding ?: throw IllegalStateException("Binding for ActivityMainBinding must not be null")
+        get() = _binding
+            ?: throw IllegalStateException("Binding for ActivityMainBinding must not be null")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,22 +37,20 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.categories.setOnClickListener() {
-            supportFragmentManager.commit {
-                replace<CategoriesListFragment>(R.id.mainContainer)
-                setReorderingAllowed(true)
-                addToBackStack("categories")
-            }
-
+            changeFragment(CategoriesListFragment())
         }
 
         binding.favourites.setOnClickListener() {
-            supportFragmentManager.commit {
-                replace<FavoritesFragment>(R.id.mainContainer)
-                setReorderingAllowed(true)
-                addToBackStack("favorites")
-            }
+            changeFragment(FavoritesFragment())
         }
 
+    }
+
+    fun changeFragment(fragment: Fragment) {
+        supportFragmentManager.commit {
+            replace(R.id.mainContainer, fragment)
+            setReorderingAllowed(true)
+        }
     }
 
 }
