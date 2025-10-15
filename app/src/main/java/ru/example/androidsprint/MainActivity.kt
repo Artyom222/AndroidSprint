@@ -1,18 +1,21 @@
 package ru.example.androidsprint
 
+import androidx.fragment.app.Fragment
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import ru.example.androidsprint.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     private var _binding: ActivityMainBinding? = null
     private val binding
-        get() = _binding ?: throw IllegalStateException("Binding for ActivityMainBinding must not be null")
+        get() = _binding
+            ?: throw IllegalStateException("Binding for ActivityMainBinding must not be null")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +32,24 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.commit {
                 setReorderingAllowed(true)
                 add(R.id.mainContainer, CategoriesListFragment())
+
             }
+        }
+
+        binding.categories.setOnClickListener() {
+            changeFragment(CategoriesListFragment())
+        }
+
+        binding.favourites.setOnClickListener() {
+            changeFragment(FavoritesFragment())
+        }
+
+    }
+
+    fun changeFragment(fragment: Fragment) {
+        supportFragmentManager.commit {
+            replace(R.id.mainContainer, fragment)
+            setReorderingAllowed(true)
         }
     }
 

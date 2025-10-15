@@ -5,20 +5,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import ru.example.androidsprint.databinding.FragmentListCategoriesBinding
+import ru.example.androidsprint.databinding.FragmentFavoritesBinding
 
-class CategoriesListFragment : Fragment() {
-    private var _binding: FragmentListCategoriesBinding? = null
-    private val binding: FragmentListCategoriesBinding
+class FavoritesFragment : Fragment() {
+    private var _binding: FragmentFavoritesBinding? = null
+    private val binding: FragmentFavoritesBinding
         get() = _binding
-            ?: throw IllegalStateException("Binding for FragmentListCategoriesBinding must not be null")
+            ?: throw IllegalStateException("Binding for FragmentFavoritesBindingBinding must not be null")
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentListCategoriesBinding.inflate(inflater, container, false)
+        _binding = FragmentFavoritesBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -26,4 +26,5 @@ class CategoriesListFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
 }
