@@ -11,7 +11,7 @@ class FavoritesFragment : Fragment() {
     private var _binding: FragmentFavoritesBinding? = null
     private val binding: FragmentFavoritesBinding
         get() = _binding
-            ?: throw IllegalStateException("Binding for FragmentFavoritesBindingBinding must not be null")
+            ?: throw IllegalStateException("Binding for FragmentFavoritesBinding must not be null")
 
     override fun onCreateView(
         inflater: LayoutInflater,

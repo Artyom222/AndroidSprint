@@ -7,8 +7,26 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.commit
-import androidx.fragment.app.replace
 import ru.example.androidsprint.databinding.ActivityMainBinding
+
+data class Category(
+    val id: Int,
+    val title: String,
+    val description: String,
+    val imageUrl: String,
+)
+
+data class Recipe(
+    val id: Int,
+    val title: String,
+    val ingredients: List<Ingredient>
+)
+
+data class Ingredient(
+    val quantity: String,
+    val unitOfMeasure: String,
+    val description: String,
+)
 
 class MainActivity : AppCompatActivity() {
 
@@ -36,11 +54,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        binding.categories.setOnClickListener() {
+        binding.btnCategories.setOnClickListener() {
             changeFragment(CategoriesListFragment())
         }
 
-        binding.favourites.setOnClickListener() {
+        binding.btnFavourites.setOnClickListener() {
             changeFragment(FavoritesFragment())
         }
 
@@ -50,6 +68,7 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.commit {
             replace(R.id.mainContainer, fragment)
             setReorderingAllowed(true)
+            addToBackStack(null)
         }
     }
 

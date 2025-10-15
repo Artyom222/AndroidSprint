@@ -27,7 +27,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/categories"
+            android:id="@+id/btnCategories"
             style="@style/StyleNavButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -36,10 +36,11 @@
             android:layout_marginEnd="@dimen/button_margin_between_half"
             android:layout_weight="1"
             android:backgroundTint="@color/color_button_categories"
-            android:text="@string/title_categories" />
+            android:text="@string/title_categories"
+            />
 
         <Button
-            android:id="@+id/favourites"
+            android:id="@+id/btnFavourites"
             style="@style/StyleNavButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
