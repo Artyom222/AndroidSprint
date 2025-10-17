@@ -9,25 +9,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.commit
 import ru.example.androidsprint.databinding.ActivityMainBinding
 
-data class Category(
-    val id: Int,
-    val title: String,
-    val description: String,
-    val imageUrl: String,
-)
-
-data class Recipe(
-    val id: Int,
-    val title: String,
-    val ingredients: List<Ingredient>
-)
-
-data class Ingredient(
-    val quantity: String,
-    val unitOfMeasure: String,
-    val description: String,
-)
-
 class MainActivity : AppCompatActivity() {
 
     private var _binding: ActivityMainBinding? = null
