@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.commit
-import androidx.fragment.app.replace
 import ru.example.androidsprint.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -36,11 +35,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        binding.categories.setOnClickListener() {
+        binding.btnCategories.setOnClickListener() {
             changeFragment(CategoriesListFragment())
         }
 
-        binding.favourites.setOnClickListener() {
+        binding.btnFavourites.setOnClickListener() {
             changeFragment(FavoritesFragment())
         }
 
@@ -50,6 +49,7 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.commit {
             replace(R.id.mainContainer, fragment)
             setReorderingAllowed(true)
+            addToBackStack(null)
         }
     }
 
