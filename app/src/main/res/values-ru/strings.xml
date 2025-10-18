@@ -2,4 +2,16 @@
     <string name="app_name">AndroidSprint</string>
     <string name="title_categories">категории</string>
     <string name="title_favorites">избранное</string>
+    <string name="title_burgers">бургеры</string>
+    <string name="description_burgers">Рецепты всех популярных видов бургеров</string>
+    <string name="title_desserts">десерты</string>
+    <string name="description_desserts">Самые вкусные рецепты десертов специально для вас</string>
+    <string name="title_pizza">пицца</string>
+    <string name="description_pizza">Пицца на любой вкус и цвет. Лучшая подборка для тебя</string>
+    <string name="title_fish">рыба</string>
+    <string name="description_fish">Печеная, жареная, сушеная, любая рыба на твой вкус</string>
+    <string name="title_soups">супы</string>
+    <string name="description_soups">От классики до экзотики: мир в одной тарелке</string>
+    <string name="title_salads">салаты</string>
+    <string name="description_salads">Хрустящий калейдоскоп под соусом вдохновения</string>
 </resources>

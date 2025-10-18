@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="156dp"
+    android:layout_height="220dp"
+    android:layout_margin="@dimen/item_category_margin_half"
+    android:background="@color/color_background_white"
+    app:cardCornerRadius="@dimen/corner_radius_8"
+    android:clickable="true"
+    android:focusable="true"
+    tools:visibility="visible">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:src="@drawable/bcg_categories"
+            android:scaleType="centerCrop"/>
+        <!--        как сделать ссылку на папку assets?-->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_burgers"
+            android:textAppearance="@style/StyleTitle14"
+            android:textColor="@color/color_text_titles"
+            android:layout_margin="@dimen/item_category_margin_half"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/description_burgers"
+            android:layout_marginHorizontal="@dimen/item_category_margin_half"
+            android:textAppearance="@style/StyleDescription12"
+            />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

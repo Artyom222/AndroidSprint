@@ -4,7 +4,11 @@
     <dimen name="button_margin_vertical">8dp</dimen>
     <dimen name="button_margin_between_half">2dp</dimen>
     <dimen name="button_margin_horizontal">16dp</dimen>
+    <dimen name="text_size_12">12sp</dimen>
     <dimen name="text_size_14">14sp</dimen>
+    <dimen name="text_size_20">20sp</dimen>
     <dimen name="corner_radius_8">8dp</dimen>
+    <dimen name="text_margin_title">16dp</dimen>
+    <dimen name="item_category_margin_half">8dp</dimen>
 
 </resources>
