@@ -4,15 +4,5 @@
     <string name="title_favorites">favourites</string>
     <string name="title_burgers">burgers</string>
     <string name="description_burgers">Recipes for all popular types of burgers</string>
-    <string name="title_desserts">desserts</string>
-    <string name="description_desserts">The most delicious dessert recipes especially for you</string>
-    <string name="title_pizza">pizza</string>
-    <string name="description_pizza">Pizza for every taste and color. The best selection for you</string>
-    <string name="title_fish">fish</string>
-    <string name="description_fish">Baked, fried, dried, any fish you like</string>
-    <string name="title_soups">soups</string>
-    <string name="description_soups">From classics to exotics: a world in one plate</string>
-    <string name="title_salads">salads</string>
-    <string name="description_salads">A crispy kaleidoscope with inspiration sauce</string>
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
 </resources>
