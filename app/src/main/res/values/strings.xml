@@ -2,6 +2,7 @@
     <string name="app_name" translatable="false">AndroidSprint</string>
     <string name="title_categories">categories</string>
     <string name="title_favorites">favourites</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_burgers">burgers</string>
+    <string name="description_burgers">Recipes for all popular types of burgers</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
 </resources>

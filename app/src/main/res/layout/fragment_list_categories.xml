@@ -1,14 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_background_white"
+    android:orientation="vertical"
     tools:context=".CategoriesListFragment">
 
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height">
+
+        <ImageView
+            android:id="@+id/ivCategories"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bcg_categories"
+            android:contentDescription="Categories image"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_categories"
+            android:gravity="center"
+            android:textAppearance="@style/StyleTitle20"
+            android:background="@drawable/screen_title_background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_margin="@dimen/margin_16"
+            android:padding="@dimen/margin_10"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCategories"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/title_categories" />
+        android:layout_marginHorizontal="@dimen/margin_8"
+        android:layout_marginTop="@dimen/margin_8"
+        tools:itemCount="6"
+        tools:listitem="@layout/item_category"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        tools:spanCount="2"
+        />
 
-</FrameLayout>
+</LinearLayout>
