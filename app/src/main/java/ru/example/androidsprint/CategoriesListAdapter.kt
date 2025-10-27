@@ -8,37 +8,37 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import ru.example.androidsprint.databinding.ItemCategoryBinding
 
 class CategoriesListAdapter(private val dataSet: List<Category>) :
     RecyclerView.Adapter<CategoriesListAdapter.ViewHolder>() {
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val imageView: ImageView = view.findViewById(R.id.ivCategory)
-        val titleTextView: TextView = view.findViewById(R.id.tvTitleCategory)
-        val descriptionTextView: TextView = view.findViewById(R.id.tvDescriptionCategory)
-    }
+    class ViewHolder(val binding: ItemCategoryBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.item_category, viewGroup, false)
-        return ViewHolder(view)
+        val binding = ItemCategoryBinding.inflate(
+            LayoutInflater.from(viewGroup.context),
+            viewGroup,
+            false
+        )
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val category: Category = dataSet[position]
-        viewHolder.titleTextView.text = category.title
-        viewHolder.descriptionTextView.text = category.description
+        viewHolder.binding.tvTitleCategory.text = category.title
+        viewHolder.binding.tvDescriptionCategory.text = category.description
 
         val drawable = try {
             Drawable.createFromStream(
-                viewHolder.imageView.context.assets.open(category.imageUrl),
+                viewHolder.binding.root.context.assets.open(category.imageUrl),
                 null
             )
         } catch (e: Exception) {
-            Log.d("!!!", "Image not found")
+            Log.e("!!!", "Image not found")
             null
         }
-        viewHolder.imageView.setImageDrawable(drawable)
+        viewHolder.binding.ivCategory.setImageDrawable(drawable)
     }
 
     override fun getItemCount() = dataSet.size
