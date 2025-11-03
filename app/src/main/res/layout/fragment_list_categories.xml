@@ -16,9 +16,9 @@
             android:id="@+id/ivCategories"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:contentDescription="Categories image"
             android:scaleType="centerCrop"
             android:src="@drawable/bcg_categories"
-            android:contentDescription="Categories image"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -28,15 +28,14 @@
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/title_categories"
-            android:gravity="center"
-            android:textAppearance="@style/StyleTitle20"
-            android:background="@drawable/screen_title_background"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             android:layout_margin="@dimen/margin_16"
-            android:padding="@dimen/margin_10"/>
-
+            android:background="@drawable/screen_title_background"
+            android:gravity="center"
+            android:padding="@dimen/margin_10"
+            android:text="@string/title_categories"
+            android:textAppearance="@style/StyleTitle20"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -45,10 +44,9 @@
         android:layout_height="match_parent"
         android:layout_marginHorizontal="@dimen/margin_8"
         android:layout_marginTop="@dimen/margin_8"
-        tools:itemCount="6"
-        tools:listitem="@layout/item_category"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        tools:spanCount="2"
-        />
+        app:spanCount="2"
+        tools:itemCount="6"
+        tools:listitem="@layout/item_category" />
 
 </LinearLayout>
