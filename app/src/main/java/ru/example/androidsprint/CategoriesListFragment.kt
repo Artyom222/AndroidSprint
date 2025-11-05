@@ -8,6 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.commit
 import ru.example.androidsprint.databinding.FragmentListCategoriesBinding
 
+const val ARG_CATEGORY_ID = "category_id"
+const val ARG_CATEGORY_NAME = "category_name"
+const val ARG_CATEGORY_IMAGE_URL = "category_image_url"
+
+
 class CategoriesListFragment : Fragment() {
     private var _binding: FragmentListCategoriesBinding? = null
     private val binding: FragmentListCategoriesBinding
@@ -38,16 +43,22 @@ class CategoriesListFragment : Fragment() {
         binding.rvCategories.adapter = categoriesAdapter
         categoriesAdapter.setOnItemClickListener(object :
             CategoriesListAdapter.OnItemClickListener {
-            override fun onItemClick() {
-                openRecipesByCategoryId()
+            override fun onItemClick(categoryId: Int) {
+                openRecipesByCategoryId(categoryId)
             }
         })
 
     }
 
-    private fun openRecipesByCategoryId() {
+    private fun openRecipesByCategoryId(categoryId:Int) {
+        val category = STUB.getCategories().find { it.id == categoryId }
+        val bundle = Bundle().apply {
+            putInt(ARG_CATEGORY_ID, categoryId)
+            putString(ARG_CATEGORY_NAME, category?.title)
+            putString(ARG_CATEGORY_IMAGE_URL, category?.imageUrl)
+        }
         parentFragmentManager.commit {
-            replace(R.id.mainContainer, RecipesListFragment())
+            replace(R.id.mainContainer, RecipesListFragment::class.java, bundle)
             setReorderingAllowed(true)
             addToBackStack(null)
         }
