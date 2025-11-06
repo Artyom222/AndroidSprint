@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import ru.example.androidsprint.databinding.FragmentRecipesListBinding
 
-class RecipesListFragment() : Fragment() {
+class RecipesListFragment : Fragment() {
     private var _binding: FragmentRecipesListBinding? = null
     private val binding: FragmentRecipesListBinding
         get() = _binding

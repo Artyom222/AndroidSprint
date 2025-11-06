@@ -8,11 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.commit
 import ru.example.androidsprint.databinding.FragmentListCategoriesBinding
 
-const val ARG_CATEGORY_ID = "category_id"
-const val ARG_CATEGORY_NAME = "category_name"
-const val ARG_CATEGORY_IMAGE_URL = "category_image_url"
-
-
 class CategoriesListFragment : Fragment() {
     private var _binding: FragmentListCategoriesBinding? = null
     private val binding: FragmentListCategoriesBinding
@@ -50,7 +45,7 @@ class CategoriesListFragment : Fragment() {
 
     }
 
-    private fun openRecipesByCategoryId(categoryId:Int) {
+    private fun openRecipesByCategoryId(categoryId: Int) {
         val category = STUB.getCategories().find { it.id == categoryId }
         val bundle = Bundle().apply {
             putInt(ARG_CATEGORY_ID, categoryId)
