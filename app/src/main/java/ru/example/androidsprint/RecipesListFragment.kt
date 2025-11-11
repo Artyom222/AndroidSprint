@@ -35,7 +35,10 @@ class RecipesListFragment : Fragment() {
         categoryImageUrl = arguments?.getString(ARG_CATEGORY_IMAGE_URL)
 
         val drawable =
-            Drawable.createFromStream(requireContext().assets.open(categoryImageUrl.toString()), null)
+            Drawable.createFromStream(
+                requireContext().assets.open(categoryImageUrl.toString()),
+                null
+            )
         binding.ivRecipe.setImageDrawable(drawable)
         binding.tvTitleRecipe.text = categoryName
         initRecycler(categoryId)
@@ -51,16 +54,16 @@ class RecipesListFragment : Fragment() {
         binding.rvRecipes.adapter = recipesAdapter
         recipesAdapter.setOnItemClickListener(object :
             RecipesListAdapter.OnItemClickListener {
-            override fun onItemClick(recipeId: Int?) {
+            override fun onItemClick(recipeId: Int) {
                 openRecipeByRecipeId(recipeId, categoryId)
             }
         })
     }
 
-    private fun openRecipeByRecipeId(recipeId: Int?, categoryId: Int?) {
-        val recipe = STUB.getRecipesByCategoryId(categoryId)?.find { it.id == recipeId }
+    private fun openRecipeByRecipeId(recipeId: Int, categoryId: Int?) {
+        val recipe = STUB.getRecipesByCategoryId(categoryId).find { it.id == recipeId }
         val bundle = Bundle().apply {
-            putInt(ARG_RECIPE_ID, recipeId!!)
+            putInt(ARG_RECIPE_ID, recipeId)
         }
         parentFragmentManager.commit {
             replace(R.id.mainContainer, RecipeFragment())

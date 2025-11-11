@@ -16,7 +16,7 @@
             android:id="@+id/ivRecipe"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:contentDescription="Category image"
+            android:contentDescription="@string/image_description_category"
             android:scaleType="centerCrop"
             android:src="@drawable/bcg_categories"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -35,7 +35,8 @@
             android:text="@string/title_categories"
             android:textAppearance="@style/StyleTitle20"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="категории" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView

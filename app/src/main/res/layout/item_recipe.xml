@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/margin_8"
@@ -19,7 +20,7 @@
             android:id="@+id/ivRecipe"
             android:layout_width="match_parent"
             android:layout_height="@dimen/image_height"
-            android:contentDescription="Burgers image"
+            android:contentDescription="@string/image_description_burger"
             android:scaleType="centerCrop"
             android:src="@drawable/bcg_categories" />
 
@@ -30,7 +31,8 @@
             android:layout_margin="@dimen/margin_8"
             android:text="@string/title_burgers"
             android:textAppearance="@style/StyleTitle14"
-            android:textColor="@color/color_text_titles" />
+            android:textColor="@color/color_text_titles"
+            tools:text="Бургеры" />
 
     </LinearLayout>
 
