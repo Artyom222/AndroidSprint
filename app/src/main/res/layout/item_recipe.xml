@@ -22,17 +22,16 @@
             android:layout_height="@dimen/image_height"
             android:contentDescription="@string/image_description_burger"
             android:scaleType="centerCrop"
-            android:src="@drawable/bcg_categories" />
+            tools:src="@drawable/bcg_categories" />
 
         <TextView
             android:id="@+id/tvTitleRecipe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_8"
-            android:text="@string/title_burgers"
+            tools:text="@string/title_burgers"
             android:textAppearance="@style/StyleTitle14"
-            android:textColor="@color/color_text_titles"
-            tools:text="Бургеры" />
+            android:textColor="@color/color_text_titles" />
 
     </LinearLayout>
 

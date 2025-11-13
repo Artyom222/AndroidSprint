@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/margin_8"
@@ -21,16 +22,16 @@
             android:layout_height="@dimen/image_height"
             android:contentDescription="Burgers image"
             android:scaleType="centerCrop"
-            android:src="@drawable/bcg_categories" />
+            tools:src="@drawable/bcg_categories" />
 
         <TextView
             android:id="@+id/tvTitleCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_8"
-            android:text="@string/title_burgers"
             android:textAppearance="@style/StyleTitle14"
-            android:textColor="@color/color_text_titles" />
+            android:textColor="@color/color_text_titles"
+            tools:text="@string/title_burgers" />
 
         <TextView
             android:id="@+id/tvDescriptionCategory"
@@ -38,8 +39,8 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_8"
             android:layout_marginBottom="@dimen/margin_8"
-            android:text="@string/description_burgers"
-            android:textAppearance="@style/StyleDescription12" />
+            android:textAppearance="@style/StyleDescription12"
+            tools:text="@string/description_burgers" />
 
     </LinearLayout>
 

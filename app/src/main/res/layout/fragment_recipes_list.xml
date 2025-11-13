@@ -18,11 +18,11 @@
             android:layout_height="match_parent"
             android:contentDescription="@string/image_description_category"
             android:scaleType="centerCrop"
-            android:src="@drawable/bcg_categories"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/bcg_categories" />
 
         <TextView
             android:id="@+id/tvTitleRecipe"
@@ -32,11 +32,10 @@
             android:background="@drawable/screen_title_background"
             android:gravity="center"
             android:padding="@dimen/margin_10"
-            android:text="@string/title_categories"
             android:textAppearance="@style/StyleTitle20"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:text="категории" />
+            tools:text="@string/title_categories" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
