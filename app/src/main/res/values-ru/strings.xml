@@ -3,6 +3,8 @@
     <string name="title_categories">категории</string>
     <string name="title_favorites">избранное</string>
     <string name="title_burgers">бургеры</string>
+    <string name="image_description_category">Изображение категории</string>
+    <string name="image_description_burger">Изображение бургера</string>
     <string name="description_burgers">Рецепты всех популярных видов бургеров</string>
     <string name="title_desserts">десерты</string>
     <string name="description_desserts">Самые вкусные рецепты десертов специально для вас</string>

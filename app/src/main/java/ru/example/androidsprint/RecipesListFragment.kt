@@ -1,10 +1,12 @@
 package ru.example.androidsprint
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.commit
 import ru.example.androidsprint.databinding.FragmentRecipesListBinding
 
 class RecipesListFragment : Fragment() {
@@ -31,11 +33,43 @@ class RecipesListFragment : Fragment() {
         categoryId = arguments?.getInt(ARG_CATEGORY_ID)
         categoryName = arguments?.getString(ARG_CATEGORY_NAME)
         categoryImageUrl = arguments?.getString(ARG_CATEGORY_IMAGE_URL)
+
+        val drawable =
+            Drawable.createFromStream(
+                requireContext().assets.open(categoryImageUrl.toString()),
+                null
+            )
+        binding.ivRecipe.setImageDrawable(drawable)
+        binding.tvTitleRecipe.text = categoryName
+        initRecycler(categoryId)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun initRecycler(categoryId: Int?) {
+        val recipesAdapter = RecipesListAdapter(STUB.getRecipesByCategoryId(categoryId))
+        binding.rvRecipes.adapter = recipesAdapter
+        recipesAdapter.setOnItemClickListener(object :
+            RecipesListAdapter.OnItemClickListener {
+            override fun onItemClick(recipeId: Int) {
+                openRecipeByRecipeId(recipeId, categoryId)
+            }
+        })
+    }
+
+    private fun openRecipeByRecipeId(recipeId: Int, categoryId: Int?) {
+        val recipe = STUB.getRecipesByCategoryId(categoryId).find { it.id == recipeId }
+        val bundle = Bundle().apply {
+            putInt(ARG_RECIPE_ID, recipeId)
+        }
+        parentFragmentManager.commit {
+            replace(R.id.mainContainer, RecipeFragment())
+            setReorderingAllowed(true)
+            addToBackStack(null)
+        }
     }
 
 }
