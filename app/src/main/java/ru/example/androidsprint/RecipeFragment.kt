@@ -6,9 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.BundleCompat.getParcelable
 import ru.example.androidsprint.databinding.FragmentRecipeBinding
-
 
 class RecipeFragment : Fragment() {
 
@@ -16,7 +14,6 @@ class RecipeFragment : Fragment() {
     private val binding: FragmentRecipeBinding
         get() = _binding
             ?: throw IllegalStateException("Binding for FragmentRecipeBinding must not be null")
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import ru.example.androidsprint.databinding.FragmentRecipesListBinding
 
 class RecipesListFragment : Fragment() {
@@ -66,7 +67,10 @@ class RecipesListFragment : Fragment() {
             putParcelable(ARG_RECIPE, recipe)
         }
         parentFragmentManager.commit {
-            replace(R.id.mainContainer, RecipeFragment::class.java, bundle)
+            replace<RecipeFragment>(
+                R.id.mainContainer,
+                args = bundle
+            )
             setReorderingAllowed(true)
             addToBackStack(null)
         }
