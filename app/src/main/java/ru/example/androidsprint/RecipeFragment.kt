@@ -1,11 +1,16 @@
 package ru.example.androidsprint
 
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.divider.MaterialDividerItemDecoration
 import ru.example.androidsprint.databinding.FragmentRecipeBinding
 
 class RecipeFragment : Fragment() {
@@ -31,8 +36,56 @@ class RecipeFragment : Fragment() {
             @Suppress("DEPRECATION")
             arguments?.getParcelable(ARG_RECIPE) as? Recipe
         }
+        initUI(recipe ?: return)
+        initRecyclers(recipe?.id ?: return)
+    }
 
-        binding.tvFragmentRecipe.text = recipe?.title
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun initUI(recipe: Recipe) {
+        binding.tvNameRecipe.text = recipe.title
+        val drawable = try {
+            Drawable.createFromStream(
+                binding.root.context.assets.open(recipe.imageUrl.toString()),
+                null
+            )
+        } catch (e: Exception) {
+            Log.e("!!!", "Image not found")
+            null
+        }
+        binding.ivRecipe.setImageDrawable(drawable)
+    }
+
+    private fun initRecyclers(recipeId: Int) {
+        val ingredientAdapter =
+            IngredientsAdapter(STUB.getRecipeById(recipeId)?.ingredients ?: return)
+        binding.rvIngredients.adapter = ingredientAdapter
+
+        val methodAdapter = MethodAdapter(STUB.getRecipeById(recipeId)?.method ?: return)
+        binding.rvMethod.adapter = methodAdapter
+
+        setupDividers()
+    }
+
+    private fun setupDividers() {
+        val ingredientsDivider =
+            MaterialDividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)
+        ingredientsDivider.dividerColor =
+            ContextCompat.getColor(requireContext(), R.color.color_divider)
+        ingredientsDivider.dividerThickness =
+            resources.getDimensionPixelSize(R.dimen.divider_thickness)
+        ingredientsDivider.isLastItemDecorated = false
+        binding.rvIngredients.addItemDecoration(ingredientsDivider)
+
+        val methodDivider =
+            MaterialDividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)
+        methodDivider.dividerColor = ContextCompat.getColor(requireContext(), R.color.color_divider)
+        methodDivider.dividerThickness = resources.getDimensionPixelSize(R.dimen.divider_thickness)
+        methodDivider.isLastItemDecorated = false
+        binding.rvMethod.addItemDecoration(methodDivider)
     }
 
 }

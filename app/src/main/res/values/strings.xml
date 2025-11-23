@@ -1,9 +1,13 @@
 <resources>
     <string name="app_name" translatable="false">AndroidSprint</string>
     <string name="title_categories">categories</string>
+    <string name="title_recipe">recipe</string>
     <string name="title_favorites">favourites</string>
+    <string name="title_ingredients">ingredients</string>
+    <string name="title_cooking_method">cooking method</string>
     <string name="title_burgers">burgers</string>
     <string name="image_description_category">Category image</string>
+    <string name="image_description_recipe">Recipe image</string>
     <string name="image_description_burger">Burgers image</string>
     <string name="description_burgers">Recipes for all popular types of burgers</string>
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
