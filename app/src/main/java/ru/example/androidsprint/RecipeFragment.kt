@@ -37,7 +37,7 @@ class RecipeFragment : Fragment() {
             arguments?.getParcelable(ARG_RECIPE) as? Recipe
         }
         initUI(recipe ?: return)
-        initRecyclers(recipe?.id ?: return)
+        initRecyclers(recipe ?: return)
     }
 
     override fun onDestroyView() {
@@ -49,7 +49,7 @@ class RecipeFragment : Fragment() {
         binding.tvNameRecipe.text = recipe.title
         val drawable = try {
             Drawable.createFromStream(
-                binding.root.context.assets.open(recipe.imageUrl.toString()),
+                binding.root.context.assets.open(recipe.imageUrl),
                 null
             )
         } catch (e: Exception) {
@@ -59,12 +59,12 @@ class RecipeFragment : Fragment() {
         binding.ivRecipe.setImageDrawable(drawable)
     }
 
-    private fun initRecyclers(recipeId: Int) {
+    private fun initRecyclers(recipe: Recipe) {
         val ingredientAdapter =
-            IngredientsAdapter(STUB.getRecipeById(recipeId)?.ingredients ?: return)
+            IngredientsAdapter(recipe.ingredients)
         binding.rvIngredients.adapter = ingredientAdapter
 
-        val methodAdapter = MethodAdapter(STUB.getRecipeById(recipeId)?.method ?: return)
+        val methodAdapter = MethodAdapter(recipe.method)
         binding.rvMethod.adapter = methodAdapter
 
         setupDividers()
