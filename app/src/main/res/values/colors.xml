@@ -7,4 +7,5 @@
     <color name="color_background_white">#F4FAFF</color>
     <color name="color_text_titles">#5F3678</color>
     <color name="color_text_description">#666666</color>
+    <color name="color_divider">#F5F5F5</color>
 </resources>
