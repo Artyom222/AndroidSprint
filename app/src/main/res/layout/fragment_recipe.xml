@@ -76,14 +76,14 @@
 
         </LinearLayout>
 
-       <SeekBar
-           android:id="@+id/sbPortions"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:min="1"
-           android:max="5"
-           android:progress="1"
-           android:minHeight="30dp"/>
+        <SeekBar
+            android:id="@+id/sbPortions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="5"
+            android:min="1"
+            android:minHeight="30dp"
+            android:progress="1" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvIngredients"

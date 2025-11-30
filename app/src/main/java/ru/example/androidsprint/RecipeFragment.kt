@@ -70,17 +70,15 @@ class RecipeFragment : Fragment() {
         binding.rvMethod.adapter = methodAdapter
 
         binding.sbPortions.setOnSeekBarChangeListener(
-            object : SeekBar.OnSeekBarChangeListener{
-                override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean){
+            object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                     ingredientAdapter.updateIngredients(progress)
                     binding.tvCountPortions.text = progress.toString()
                 }
-                override fun onStartTrackingTouch(seekBar: SeekBar){}
-                override fun onStopTrackingTouch(seekBar: SeekBar){}
+                override fun onStartTrackingTouch(seekBar: SeekBar) {}
+                override fun onStopTrackingTouch(seekBar: SeekBar) {}
             }
-
         )
-
         setupDividers()
     }
 
@@ -101,5 +99,4 @@ class RecipeFragment : Fragment() {
         methodDivider.isLastItemDecorated = false
         binding.rvMethod.addItemDecoration(methodDivider)
     }
-
 }
