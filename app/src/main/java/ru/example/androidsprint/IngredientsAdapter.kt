@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.example.androidsprint.databinding.ItemIngredientBinding
+import java.math.BigDecimal
+import java.math.RoundingMode
 
 class IngredientsAdapter(private val dataSet: List<Ingredient>) :
     RecyclerView.Adapter<IngredientsAdapter.ViewHolder>() {
@@ -27,11 +29,12 @@ class IngredientsAdapter(private val dataSet: List<Ingredient>) :
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val ingredient: Ingredient = dataSet[position]
         viewHolder.binding.tvIngredient.text = ingredient.description.uppercase()
-        val result = ingredient.quantity.toDouble() * quantityPortions
-        val formattedQuantity = if (result % 1 == 0.0) {
+        val quantity = BigDecimal(ingredient.quantity)
+        val result = quantity.multiply(BigDecimal(quantityPortions))
+        val formattedQuantity = if (result.stripTrailingZeros().scale() <= 0) {
             result.toInt().toString()
         } else {
-            "%.1f".format(result)
+            result.setScale(1, RoundingMode.HALF_UP).toString()
         }
         viewHolder.binding.tvQuantity.text =
             "$formattedQuantity ${ingredient.unitOfMeasure.uppercase()}"
