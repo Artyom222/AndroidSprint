@@ -47,18 +47,51 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_16"
+            android:layout_marginStart="@dimen/margin_16"
+            android:layout_marginTop="@dimen/margin_16"
             android:text="@string/title_ingredients"
-            android:textAppearance="@style/StyleTitle20"
-            android:textColor="@color/color_text_titles" />
+            android:textAppearance="@style/StyleTitle20" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/margin_6"
+            android:background="@color/color_background_white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_16"
+                android:text="@string/title_portions"
+                android:textAppearance="@style/StyleDescription16" />
+
+            <TextView
+                android:id="@+id/tvCountPortions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_6"
+                android:textAppearance="@style/StyleDescription16"
+                tools:text="@string/title_portions" />
+
+        </LinearLayout>
+
+        <SeekBar
+            android:id="@+id/sbPortions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="5"
+            android:min="1"
+            android:minHeight="30dp"
+            android:progress="1" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvIngredients"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_16"
-            android:padding="@dimen/margin_4"
             android:background="@drawable/screen_recipe"
+            android:padding="@dimen/margin_4"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_ingredient" />
 
@@ -67,16 +100,15 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_16"
             android:text="@string/title_cooking_method"
-            android:textAppearance="@style/StyleTitle20"
-            android:textColor="@color/color_text_titles" />
+            android:textAppearance="@style/StyleTitle20" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvMethod"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_16"
-            android:padding="@dimen/margin_8"
             android:background="@drawable/screen_recipe"
+            android:padding="@dimen/margin_8"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_method" />
 

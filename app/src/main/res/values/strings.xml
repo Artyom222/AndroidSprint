@@ -5,6 +5,7 @@
     <string name="title_favorites">favourites</string>
     <string name="title_ingredients">ingredients</string>
     <string name="title_cooking_method">cooking method</string>
+    <string name="title_portions">"Portions: "</string>
     <string name="title_burgers">burgers</string>
     <string name="image_description_category">Category image</string>
     <string name="image_description_recipe">Recipe image</string>
