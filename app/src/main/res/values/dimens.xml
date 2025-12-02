@@ -7,6 +7,9 @@
     <dimen name="margin_2">2dp</dimen>
     <dimen name="margin_10">10dp</dimen>
     <dimen name="corner_radius_8">8dp</dimen>
+    <dimen name="corner_radius_4">4dp</dimen>
+    <dimen name="size_30">30dp</dimen>
+    <dimen name="corner_radius_2">2dp</dimen>
     <dimen name="title_height">224dp</dimen>
     <dimen name="image_height">130dp</dimen>
     <dimen name="divider_thickness">1dp</dimen>

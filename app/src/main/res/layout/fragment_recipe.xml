@@ -83,7 +83,8 @@
             android:max="5"
             android:min="1"
             android:minHeight="30dp"
-            android:progress="1" />
+            android:progress="1"
+            style="@style/StyleSeekBar" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvIngredients"
