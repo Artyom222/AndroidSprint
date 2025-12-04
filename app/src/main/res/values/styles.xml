@@ -38,7 +38,7 @@
         <item name="cornerRadius">@dimen/corner_radius_8</item>
     </style>
 
-    <style name="StyleSeekBar" parent="TextAppearance.AppCompat">
+    <style name="StyleSeekBar" parent="Widget.AppCompat.SeekBar">
         <item name="android:thumb">@drawable/shape_seekbar_thumb</item>
         <item name="android:progressDrawable">@drawable/shape_seekbar_progress</item>
     </style>
