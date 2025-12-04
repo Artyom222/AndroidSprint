@@ -39,6 +39,7 @@ class RecipeFragment : Fragment() {
         }
         initUI(recipe ?: return)
         initRecyclers(recipe ?: return)
+        binding.ibFavorite.setImageResource(R.drawable.ic_favourite)
     }
 
     override fun onDestroyView() {
@@ -58,6 +59,17 @@ class RecipeFragment : Fragment() {
             null
         }
         binding.ivRecipe.setImageDrawable(drawable)
+
+        var isFavorite = false
+        binding.ibFavorite.setOnClickListener {
+            isFavorite = !isFavorite
+            val drawable = if (isFavorite) {
+                R.drawable.ic_heart
+            } else {
+                R.drawable.ic_favourite
+            }
+            binding.ibFavorite.setImageResource(drawable)
+        }
     }
 
     private fun initRecyclers(recipe: Recipe) {
