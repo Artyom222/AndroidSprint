@@ -7,3 +7,6 @@ const val ARG_RECIPE = "recipe"
 const val ARG_RECIPE_ID = "recipe_id"
 const val ARG_RECIPE_NAME = "recipe_name"
 const val ARG_RECIPE_IMAGE_URL = "recipe_image_url"
+const val SHARED_PREFS_NAME = "recipe_favorites"
+const val FAVORITES_KEY = "favorite_recipes"
+
