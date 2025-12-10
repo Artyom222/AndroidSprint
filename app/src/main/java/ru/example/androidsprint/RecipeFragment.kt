@@ -1,5 +1,6 @@
 package ru.example.androidsprint
 
+import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
@@ -20,6 +21,7 @@ class RecipeFragment : Fragment() {
     private val binding: FragmentRecipeBinding
         get() = _binding
             ?: throw IllegalStateException("Binding for FragmentRecipeBinding must not be null")
+    private var isFavorite = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,7 +41,7 @@ class RecipeFragment : Fragment() {
         }
         initUI(recipe ?: return)
         initRecyclers(recipe ?: return)
-        binding.ibFavorite.setImageResource(R.drawable.ic_favourite)
+
     }
 
     override fun onDestroyView() {
@@ -49,6 +51,7 @@ class RecipeFragment : Fragment() {
 
     private fun initUI(recipe: Recipe) {
         binding.tvNameRecipe.text = recipe.title
+
         val drawable = try {
             Drawable.createFromStream(
                 binding.root.context.assets.open(recipe.imageUrl),
@@ -60,16 +63,38 @@ class RecipeFragment : Fragment() {
         }
         binding.ivRecipe.setImageDrawable(drawable)
 
-        var isFavorite = false
+        updateFavoriteState(recipe)
         binding.ibFavorite.setOnClickListener {
             isFavorite = !isFavorite
-            val drawable = if (isFavorite) {
-                R.drawable.ic_heart
-            } else {
-                R.drawable.ic_favourite
-            }
-            binding.ibFavorite.setImageResource(drawable)
+            updateFavoriteInStorage(recipe)
+            updateFavoriteIcon()
         }
+
+    }
+
+    private fun updateFavoriteState(recipe: Recipe) {
+        isFavorite = getFavorites().contains(recipe.id.toString())
+        updateFavoriteIcon()
+    }
+
+    private fun updateFavoriteIcon() {
+        val drawableRes = if (isFavorite) {
+            R.drawable.ic_heart
+        } else {
+            R.drawable.ic_favourite
+        }
+        binding.ibFavorite.setImageResource(drawableRes)
+    }
+
+    private fun updateFavoriteInStorage(recipe: Recipe) {
+        val favorites = getFavorites()
+
+        if (isFavorite) {
+            favorites.add(recipe.id.toString())
+        } else {
+            favorites.remove(recipe.id.toString())
+        }
+        saveFavorites(favorites)
     }
 
     private fun initRecyclers(recipe: Recipe) {
@@ -110,5 +135,21 @@ class RecipeFragment : Fragment() {
         methodDivider.dividerThickness = resources.getDimensionPixelSize(R.dimen.divider_thickness)
         methodDivider.isLastItemDecorated = false
         binding.rvMethod.addItemDecoration(methodDivider)
+    }
+
+    fun saveFavorites(favoriteIds: Set<String>) {
+        val sharedPrefs = activity?.getSharedPreferences(
+            SHARED_PREFS_NAME, Context.MODE_PRIVATE) ?: return
+        with (sharedPrefs.edit()) {
+            putStringSet(FAVORITES_KEY, favoriteIds)
+            apply()
+        }
+    }
+
+    fun getFavorites() : MutableSet<String> {
+        val sharedPrefs = activity?.getSharedPreferences(
+            SHARED_PREFS_NAME, Context.MODE_PRIVATE)
+        val savedSet = sharedPrefs?.getStringSet(FAVORITES_KEY, emptySet()) ?: emptySet()
+        return HashSet(savedSet)
     }
 }
