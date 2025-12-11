@@ -137,7 +137,7 @@ class RecipeFragment : Fragment() {
         binding.rvMethod.addItemDecoration(methodDivider)
     }
 
-    fun saveFavorites(favoriteIds: Set<String>) {
+    private fun saveFavorites(favoriteIds: Set<String>) {
         val sharedPrefs = activity?.getSharedPreferences(
             SHARED_PREFS_NAME, Context.MODE_PRIVATE) ?: return
         with (sharedPrefs.edit()) {
@@ -146,7 +146,7 @@ class RecipeFragment : Fragment() {
         }
     }
 
-    fun getFavorites() : MutableSet<String> {
+    private fun getFavorites() : MutableSet<String> {
         val sharedPrefs = activity?.getSharedPreferences(
             SHARED_PREFS_NAME, Context.MODE_PRIVATE)
         val savedSet = sharedPrefs?.getStringSet(FAVORITES_KEY, emptySet()) ?: emptySet()

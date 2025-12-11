@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">AndroidSprint</string>
     <string name="title_categories">категории</string>
+    <string name="not_favorites">Вы еще не добавили ни одного рецепта в избранное</string>
     <string name="title_recipe">Рецепт</string>
     <string name="title_favorites">избранное</string>
     <string name="title_ingredients">Ингредиенты</string>
@@ -8,6 +9,7 @@
     <string name="title_portions">"Порции: "</string>
     <string name="title_burgers">бургеры</string>
     <string name="image_description_category">Изображение категории</string>
+    <string name="image_description_favorites">Избранное</string>
     <string name="image_description_recipe">Изображение рецепта</string>
     <string name="image_description_burger">Изображение бургера</string>
     <string name="description_burgers">Рецепты всех популярных видов бургеров</string>
