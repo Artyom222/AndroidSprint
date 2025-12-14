@@ -45,15 +45,17 @@
 
             <ImageButton
                 android:id="@+id/ibFavorite"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_margin="@dimen/margin_16"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:focusable="true"
+                android:scaleType="fitCenter"
+                android:contentDescription="@string/image_description_favorites"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/ic_heart" />
+                tools:src="@drawable/ic_favourite" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

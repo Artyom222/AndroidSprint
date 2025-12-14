@@ -246,4 +246,15 @@ object STUB {
         return burgerRecipes.find { it.id == id }
     }
 
+    fun getRecipesByIds(recipesIds: Set<Int>): Set<Recipe> {
+        val recipes = mutableSetOf<Recipe>()
+        recipesIds.forEach { id ->
+            val recipe = getRecipeById(id)
+            if (recipe != null) {
+                recipes.add(recipe)
+            }
+        }
+        return recipes
+    }
+
 }
