@@ -1,14 +1,21 @@
-package ru.example.androidsprint
+package ui.recipes.favorites
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import data.ARG_RECIPE
+import data.FAVORITES_KEY
+import data.SHARED_PREFS_NAME
+import data.STUB
+import ru.example.androidsprint.R
 import ru.example.androidsprint.databinding.FragmentFavoritesBinding
+import ui.recipes.recipe.RecipeFragment
+import ui.recipes.recipe_list.RecipesListAdapter
 
 class FavoritesFragment : Fragment() {
     private var _binding: FragmentFavoritesBinding? = null

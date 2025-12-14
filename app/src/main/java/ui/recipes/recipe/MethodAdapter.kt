@@ -1,4 +1,4 @@
-package ru.example.androidsprint
+package ui.recipes.recipe
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,7 +10,7 @@ class MethodAdapter(private val dataSet: List<String>) :
 
     class ViewHolder(val binding: ItemMethodBinding) : RecyclerView.ViewHolder(binding.root)
 
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): MethodAdapter.ViewHolder {
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemMethodBinding.inflate(
             LayoutInflater.from(viewGroup.context),
             viewGroup,
