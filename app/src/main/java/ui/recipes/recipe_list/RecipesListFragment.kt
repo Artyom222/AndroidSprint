@@ -1,4 +1,4 @@
-package ru.example.androidsprint
+package ui.recipes.recipe_list
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -8,7 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import data.ARG_CATEGORY_ID
+import data.ARG_CATEGORY_IMAGE_URL
+import data.ARG_CATEGORY_NAME
+import data.ARG_RECIPE
+import data.STUB
+import ru.example.androidsprint.R
 import ru.example.androidsprint.databinding.FragmentRecipesListBinding
+import ui.recipes.recipe.RecipeFragment
 
 class RecipesListFragment : Fragment() {
     private var _binding: FragmentRecipesListBinding? = null

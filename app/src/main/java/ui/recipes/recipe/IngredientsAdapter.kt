@@ -1,8 +1,9 @@
-package ru.example.androidsprint
+package ui.recipes.recipe
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import model.Ingredient
 import ru.example.androidsprint.databinding.ItemIngredientBinding
 import java.math.BigDecimal
 import java.math.RoundingMode
@@ -17,7 +18,7 @@ class IngredientsAdapter(private val dataSet: List<Ingredient>) :
     override fun onCreateViewHolder(
         viewGroup: ViewGroup,
         viewType: Int
-    ): IngredientsAdapter.ViewHolder {
+    ): ViewHolder {
         val binding = ItemIngredientBinding.inflate(
             LayoutInflater.from(viewGroup.context),
             viewGroup,

@@ -1,4 +1,8 @@
-package ru.example.androidsprint
+package data
+
+import model.Category
+import model.Ingredient
+import model.Recipe
 
 object STUB {
     private val categories = listOf<Category>(
