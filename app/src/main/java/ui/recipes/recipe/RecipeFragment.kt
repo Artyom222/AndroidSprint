@@ -11,6 +11,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import data.ARG_RECIPE
@@ -27,6 +29,7 @@ class RecipeFragment : Fragment() {
         get() = _binding
             ?: throw IllegalStateException("Binding for FragmentRecipeBinding must not be null")
     private var isFavorite = false
+    private val viewModel: RecipeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,6 +49,10 @@ class RecipeFragment : Fragment() {
         }
         initUI(recipe ?: return)
         initRecyclers(recipe ?: return)
+
+        viewModel.liveData.observe(viewLifecycleOwner) {data ->
+            Log.i("!!!", "$isFavorite")
+        }
 
     }
 
