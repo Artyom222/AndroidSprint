@@ -14,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import data.ARG_RECIPE
+import data.ARG_RECIPE_ID
 import model.Recipe
 import ru.example.androidsprint.R
 import ru.example.androidsprint.databinding.FragmentRecipeBinding
@@ -36,17 +37,11 @@ class RecipeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val recipe = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            arguments?.getParcelable(ARG_RECIPE, Recipe::class.java)
-        } else {
-            @Suppress("DEPRECATION")
-            arguments?.getParcelable(ARG_RECIPE) as? Recipe
-        }
+        val recipeId = arguments?.getInt(ARG_RECIPE_ID) ?: return
 
-        viewModel.loadRecipe(recipe?.id ?: return)
+        viewModel.loadRecipe(recipeId)
 
         initUI()
-        initRecyclers(recipe ?: return)
 
     }
 
@@ -83,6 +78,8 @@ class RecipeFragment : Fragment() {
             binding.ibFavorite.setOnClickListener {
                 viewModel.onFavoritesClicked()
             }
+
+            initRecyclers(recipe)
 
         }
 
