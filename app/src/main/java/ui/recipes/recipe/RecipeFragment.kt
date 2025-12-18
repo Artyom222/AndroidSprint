@@ -1,6 +1,5 @@
 package ui.recipes.recipe
 
-import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
@@ -12,12 +11,9 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import data.ARG_RECIPE
-import data.FAVORITES_KEY
-import data.SHARED_PREFS_NAME
 import model.Recipe
 import ru.example.androidsprint.R
 import ru.example.androidsprint.databinding.FragmentRecipeBinding

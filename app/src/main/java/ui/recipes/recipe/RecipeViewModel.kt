@@ -2,18 +2,14 @@ package ui.recipes.recipe
 
 import android.app.Application
 import android.content.Context
-import android.os.Build
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import data.ARG_RECIPE
 import data.FAVORITES_KEY
 import data.SHARED_PREFS_NAME
 import data.STUB
 import model.Recipe
-import kotlin.collections.remove
 
 class RecipeViewModel(application: Application) : AndroidViewModel(application) {
     data class RecipeState(
