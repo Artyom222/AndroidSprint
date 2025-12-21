@@ -12,6 +12,7 @@ import data.ARG_CATEGORY_ID
 import data.ARG_CATEGORY_IMAGE_URL
 import data.ARG_CATEGORY_NAME
 import data.ARG_RECIPE
+import data.ARG_RECIPE_ID
 import data.STUB
 import ru.example.androidsprint.R
 import ru.example.androidsprint.databinding.FragmentRecipesListBinding
@@ -69,9 +70,8 @@ class RecipesListFragment : Fragment() {
     }
 
     private fun openRecipeByRecipeId(recipeId: Int) {
-        val recipe = STUB.getRecipeById(recipeId)
         val bundle = Bundle().apply {
-            putParcelable(ARG_RECIPE, recipe)
+            putInt(ARG_RECIPE_ID, recipeId)
         }
         parentFragmentManager.commit {
             replace<RecipeFragment>(
