@@ -51,7 +51,6 @@ class RecipeFragment : Fragment() {
     }
 
     private fun initUI() {
-
         viewModel.liveData.observe(viewLifecycleOwner) { state ->
             Log.i("!!!", "${state.isFavorite}")
 
@@ -61,17 +60,7 @@ class RecipeFragment : Fragment() {
             }
 
             binding.tvNameRecipe.text = recipe.title
-
-            val drawable = try {
-                Drawable.createFromStream(
-                    binding.root.context.assets.open(recipe.imageUrl),
-                    null
-                )
-            } catch (e: Exception) {
-                Log.e("!!!", "Image not found")
-                null
-            }
-            binding.ivRecipe.setImageDrawable(drawable)
+            binding.ivRecipe.setImageDrawable(state.recipeImage)
 
             updateFavoriteIcon(state.isFavorite)
 
