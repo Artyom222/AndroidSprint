@@ -29,7 +29,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun loadRecipe(recipeId: Int) {
-        TODO("load from network")
+//        TODO("load from network")
 
         val recipe = STUB.getRecipeById(recipeId)
         val isFavorite = getFavorites().contains(recipeId.toString())
@@ -89,5 +89,10 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         val newFavoriteState = !favoriteState.isFavorite
         _liveData.value = favoriteState.copy(isFavorite = newFavoriteState)
         updateFavoriteInStorage(newFavoriteState)
+    }
+
+    fun updatePortionsCount(portionsCount: Int) {
+        val currentState = _liveData.value ?: return
+        _liveData.value = currentState.copy(portionsCount = portionsCount)
     }
 }
