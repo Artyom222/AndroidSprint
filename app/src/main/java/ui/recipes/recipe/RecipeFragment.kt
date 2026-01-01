@@ -59,7 +59,7 @@ class RecipeFragment : Fragment() {
         binding.rvIngredients.adapter = ingredientAdapter
         binding.rvMethod.adapter = methodAdapter
 
-        setupDividers()
+        setupSeekBar()
 
         viewModel.liveData.observe(viewLifecycleOwner) { state ->
             Log.i("!!!", "${state.isFavorite}")
@@ -83,19 +83,22 @@ class RecipeFragment : Fragment() {
 
             updateAdapterData(recipe, state.portionsCount)
 
-            binding.sbPortions.setOnSeekBarChangeListener(
-                object : SeekBar.OnSeekBarChangeListener {
-                    override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                        viewModel.updatePortionsCount(progress)
-                    }
-
-                    override fun onStartTrackingTouch(seekBar: SeekBar) {}
-                    override fun onStopTrackingTouch(seekBar: SeekBar) {}
-                }
-            )
         }
 
+    }
 
+    private fun setupSeekBar() {
+        binding.sbPortions.setOnSeekBarChangeListener(
+            object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                    viewModel.updatePortionsCount(progress)
+                }
+
+                override fun onStartTrackingTouch(seekBar: SeekBar) {}
+                override fun onStopTrackingTouch(seekBar: SeekBar) {}
+            }
+        )
+        setupDividers()
     }
 
     private fun updateAdapterData(recipe: Recipe, portionsCount: Int) {
