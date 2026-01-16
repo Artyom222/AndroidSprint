@@ -1,7 +1,5 @@
 package ui.recipes.recipe
 
-import android.graphics.drawable.Drawable
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -13,8 +11,8 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
-import data.ARG_RECIPE
 import data.ARG_RECIPE_ID
+import data.STUB
 import model.Recipe
 import ru.example.androidsprint.R
 import ru.example.androidsprint.databinding.FragmentRecipeBinding
@@ -26,6 +24,9 @@ class RecipeFragment : Fragment() {
         get() = _binding
             ?: throw IllegalStateException("Binding for FragmentRecipeBinding must not be null")
     private val viewModel: RecipeViewModel by viewModels()
+
+    private lateinit var ingredientAdapter: IngredientsAdapter
+    private lateinit var methodAdapter: MethodAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,6 +52,15 @@ class RecipeFragment : Fragment() {
     }
 
     private fun initUI() {
+
+        ingredientAdapter = IngredientsAdapter(emptyList())
+        methodAdapter = MethodAdapter(emptyList())
+
+        binding.rvIngredients.adapter = ingredientAdapter
+        binding.rvMethod.adapter = methodAdapter
+
+        setupSeekBar()
+
         viewModel.liveData.observe(viewLifecycleOwner) { state ->
             Log.i("!!!", "${state.isFavorite}")
 
@@ -68,10 +78,32 @@ class RecipeFragment : Fragment() {
                 viewModel.onFavoritesClicked()
             }
 
-            initRecyclers(recipe)
+            binding.tvCountPortions.text = state.portionsCount.toString()
+            binding.sbPortions.progress = state.portionsCount
+
+            updateAdapterData(recipe, state.portionsCount)
 
         }
 
+    }
+
+    private fun setupSeekBar() {
+        binding.sbPortions.setOnSeekBarChangeListener(
+            object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                    viewModel.updatePortionsCount(progress)
+                }
+
+                override fun onStartTrackingTouch(seekBar: SeekBar) {}
+                override fun onStopTrackingTouch(seekBar: SeekBar) {}
+            }
+        )
+        setupDividers()
+    }
+
+    private fun updateAdapterData(recipe: Recipe, portionsCount: Int) {
+        ingredientAdapter.updateData(recipe.ingredients, portionsCount)
+        methodAdapter.updateData(recipe.method)
     }
 
     private fun updateFavoriteIcon(isFavorite: Boolean) {
@@ -81,29 +113,6 @@ class RecipeFragment : Fragment() {
             R.drawable.ic_favourite
         }
         binding.ibFavorite.setImageResource(drawableRes)
-    }
-
-    private fun initRecyclers(recipe: Recipe) {
-        binding.tvCountPortions.text = "1"
-        val ingredientAdapter =
-            IngredientsAdapter(recipe.ingredients)
-        binding.rvIngredients.adapter = ingredientAdapter
-
-        val methodAdapter = MethodAdapter(recipe.method)
-        binding.rvMethod.adapter = methodAdapter
-
-        binding.sbPortions.setOnSeekBarChangeListener(
-            object : SeekBar.OnSeekBarChangeListener {
-                override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                    ingredientAdapter.updateIngredients(progress)
-                    binding.tvCountPortions.text = progress.toString()
-                }
-
-                override fun onStartTrackingTouch(seekBar: SeekBar) {}
-                override fun onStopTrackingTouch(seekBar: SeekBar) {}
-            }
-        )
-        setupDividers()
     }
 
     private fun setupDividers() {

@@ -8,7 +8,7 @@ import ru.example.androidsprint.databinding.ItemIngredientBinding
 import java.math.BigDecimal
 import java.math.RoundingMode
 
-class IngredientsAdapter(private val dataSet: List<Ingredient>) :
+class IngredientsAdapter(private var dataSet: List<Ingredient>) :
     RecyclerView.Adapter<IngredientsAdapter.ViewHolder>() {
 
     private var quantityPortions = 1
@@ -43,8 +43,9 @@ class IngredientsAdapter(private val dataSet: List<Ingredient>) :
 
     override fun getItemCount(): Int = dataSet.size
 
-    fun updateIngredients(progress: Int) {
-        quantityPortions = progress
+    fun updateData(newIngredients: List<Ingredient>, portionsCount: Int) {
+        this.dataSet = newIngredients
+        this.quantityPortions = portionsCount
         notifyDataSetChanged()
     }
 
