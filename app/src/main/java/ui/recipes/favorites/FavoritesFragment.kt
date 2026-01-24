@@ -72,9 +72,8 @@ class FavoritesFragment : Fragment() {
     }
 
     private fun openRecipeByRecipeId(recipeId: Int) {
-        val recipe = STUB.getRecipeById(recipeId)
         val bundle = Bundle().apply {
-            putParcelable(ARG_RECIPE_ID, recipe)
+            putInt(ARG_RECIPE_ID, recipeId)
         }
         parentFragmentManager.commit {
             replace<RecipeFragment>(
