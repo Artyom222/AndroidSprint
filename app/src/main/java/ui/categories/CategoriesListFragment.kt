@@ -1,11 +1,13 @@
 package ui.categories
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.commit
+import androidx.fragment.app.viewModels
 import data.ARG_CATEGORY_ID
 import data.ARG_CATEGORY_IMAGE_URL
 import data.ARG_CATEGORY_NAME
@@ -19,6 +21,8 @@ class CategoriesListFragment : Fragment() {
     private val binding: FragmentListCategoriesBinding
         get() = _binding
             ?: throw IllegalStateException("Binding for FragmentListCategoriesBinding must not be null")
+    private val viewModel: CategoriesViewModel by viewModels()
+    private lateinit var categoriesAdapter: CategoriesListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,7 +35,9 @@ class CategoriesListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initRecycler()
+        viewModel.loadCategories()
+        initUI()
+        setOnCategoriesClickListener()
     }
 
     override fun onDestroyView() {
@@ -39,16 +45,25 @@ class CategoriesListFragment : Fragment() {
         _binding = null
     }
 
-    private fun initRecycler() {
-        val categoriesAdapter = CategoriesListAdapter(STUB.getCategories())
+    private fun initUI() {
+        categoriesAdapter = CategoriesListAdapter(STUB.getCategories())
         binding.rvCategories.adapter = categoriesAdapter
+        viewModel.liveData.observe(viewLifecycleOwner) { state ->
+            Log.i("!!!", "state change")
+
+            binding.tvTitle.text = state.title
+            binding.ivCategories.setImageDrawable(state.image)
+        }
+
+    }
+
+    private fun setOnCategoriesClickListener() {
         categoriesAdapter.setOnItemClickListener(object :
             CategoriesListAdapter.OnItemClickListener {
             override fun onItemClick(categoryId: Int) {
                 openRecipesByCategoryId(categoryId)
             }
         })
-
     }
 
     private fun openRecipesByCategoryId(categoryId: Int) {
@@ -64,4 +79,5 @@ class CategoriesListFragment : Fragment() {
             addToBackStack(null)
         }
     }
+
 }
