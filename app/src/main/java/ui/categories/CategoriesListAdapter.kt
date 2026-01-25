@@ -6,9 +6,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import model.Category
+import model.Recipe
 import ru.example.androidsprint.databinding.ItemCategoryBinding
 
-class CategoriesListAdapter(private val dataSet: List<Category>) :
+class CategoriesListAdapter(private var dataSet: List<Category>) :
     RecyclerView.Adapter<CategoriesListAdapter.ViewHolder>() {
 
     interface OnItemClickListener {
@@ -54,4 +55,9 @@ class CategoriesListAdapter(private val dataSet: List<Category>) :
     }
 
     override fun getItemCount() = dataSet.size
+
+    fun updateData(newCategories: List<Category>){
+        this.dataSet = newCategories
+        notifyDataSetChanged()
+    }
 }
