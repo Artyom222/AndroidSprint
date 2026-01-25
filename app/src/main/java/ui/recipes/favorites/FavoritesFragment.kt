@@ -8,9 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
-import data.ARG_RECIPE
 import data.ARG_RECIPE_ID
-import data.STUB
 import ru.example.androidsprint.R
 import ru.example.androidsprint.databinding.FragmentFavoritesBinding
 import ui.recipes.recipe.RecipeFragment

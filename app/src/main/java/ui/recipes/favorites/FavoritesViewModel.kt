@@ -63,6 +63,4 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
         val savedSet = sharedPrefs?.getStringSet(FAVORITES_KEY, emptySet()) ?: emptySet()
         return HashSet(savedSet)
     }
-
-
 }
