@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import data.ARG_CATEGORY_ID
 import data.ARG_CATEGORY_IMAGE_URL
 import data.ARG_CATEGORY_NAME
@@ -58,7 +59,6 @@ class CategoriesListFragment : Fragment() {
             categoriesList = state.categories
             categoriesAdapter.updateData(categoriesList)
         }
-
     }
 
     private fun setOnCategoriesClickListener() {
@@ -77,11 +77,6 @@ class CategoriesListFragment : Fragment() {
             putString(ARG_CATEGORY_NAME, category?.title)
             putString(ARG_CATEGORY_IMAGE_URL, category?.imageUrl)
         }
-        parentFragmentManager.commit {
-            replace(R.id.mainContainer, RecipesListFragment::class.java, bundle)
-            setReorderingAllowed(true)
-            addToBackStack(null)
-        }
+        findNavController().navigate(R.id.recipesListFragment, bundle)
     }
-
 }
