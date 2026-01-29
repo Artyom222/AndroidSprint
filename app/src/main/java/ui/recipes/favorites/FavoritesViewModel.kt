@@ -18,7 +18,7 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
     data class FavoritesState(
         val image: Drawable? = null,
         val title: String? = null,
-        val favoriteRecipes: List<Recipe>,
+        val favoriteRecipes: List<Recipe> = emptyList(),
     )
 
     private val _liveData: MutableLiveData<FavoritesState> = MutableLiveData()

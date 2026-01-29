@@ -11,15 +11,13 @@ import data.ARG_CATEGORY_ID
 import data.ARG_CATEGORY_IMAGE_URL
 import data.ARG_CATEGORY_NAME
 import data.STUB
-
 import model.Recipe
-
 
 class RecipesListViewModel(application: Application) : AndroidViewModel(application) {
     data class RecipesListStates(
         val imageCategory: Drawable? = null,
         val titleCategory: String? = null,
-        val recipes: List<Recipe>,
+        val recipes: List<Recipe> = emptyList(),
     )
 
     private val _liveData: MutableLiveData<RecipesListStates> = MutableLiveData()

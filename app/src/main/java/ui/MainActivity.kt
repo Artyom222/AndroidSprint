@@ -1,16 +1,13 @@
 package ui
 
-import androidx.fragment.app.Fragment
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.fragment.app.commit
+import androidx.navigation.findNavController
 import ru.example.androidsprint.R
 import ru.example.androidsprint.databinding.ActivityMainBinding
-import ui.categories.CategoriesListFragment
-import ui.recipes.favorites.FavoritesFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,30 +27,14 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        if (savedInstanceState == null) {
-            supportFragmentManager.commit {
-                setReorderingAllowed(true)
-                add(R.id.mainContainer, CategoriesListFragment())
-
-            }
-        }
-
         binding.btnCategories.setOnClickListener() {
-            changeFragment(CategoriesListFragment())
+            findNavController(R.id.mainContainer).navigate(R.id.categoriesListFragment)
         }
 
         binding.btnFavourites.setOnClickListener() {
-            changeFragment(FavoritesFragment())
+            findNavController(R.id.mainContainer).navigate(R.id.favoritesFragment)
         }
 
-    }
-
-    fun changeFragment(fragment: Fragment) {
-        supportFragmentManager.commit {
-            replace(R.id.mainContainer, fragment)
-            setReorderingAllowed(true)
-            addToBackStack(null)
-        }
     }
 
 }
