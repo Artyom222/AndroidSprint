@@ -13,6 +13,7 @@
         android:layout_height="@dimen/title_height">
 
         <ImageView
+            android:id="@+id/ivFavoriteRecipes"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:contentDescription="@string/image_description_favorites"
@@ -24,6 +25,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/tvFavoriteRecipes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_16"

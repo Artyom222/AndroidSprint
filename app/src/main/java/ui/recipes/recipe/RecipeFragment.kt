@@ -12,7 +12,6 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import data.ARG_RECIPE_ID
-import data.STUB
 import model.Recipe
 import ru.example.androidsprint.R
 import ru.example.androidsprint.databinding.FragmentRecipeBinding
@@ -43,7 +42,6 @@ class RecipeFragment : Fragment() {
         viewModel.loadRecipe(recipeId)
 
         initUI()
-
     }
 
     override fun onDestroyView() {
