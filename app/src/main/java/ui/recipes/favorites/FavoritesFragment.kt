@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import data.ARG_RECIPE_ID
 import ru.example.androidsprint.R
 import ru.example.androidsprint.databinding.FragmentFavoritesBinding
@@ -73,14 +74,6 @@ class FavoritesFragment : Fragment() {
         val bundle = Bundle().apply {
             putInt(ARG_RECIPE_ID, recipeId)
         }
-        parentFragmentManager.commit {
-            replace<RecipeFragment>(
-                R.id.mainContainer,
-                args = bundle
-            )
-            setReorderingAllowed(true)
-            addToBackStack(null)
-        }
+        findNavController().navigate(R.id.recipeFragment, bundle)
     }
-
 }

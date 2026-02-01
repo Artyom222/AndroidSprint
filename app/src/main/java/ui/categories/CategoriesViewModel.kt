@@ -15,7 +15,7 @@ class CategoriesViewModel(application: Application) : AndroidViewModel(applicati
     data class CategoriesState(
         val image: Drawable? = null,
         val title: String? = null,
-        val categories: List<Category>,
+        val categories: List<Category> = emptyList(),
     )
 
     private val _liveData: MutableLiveData<CategoriesState> = MutableLiveData()
