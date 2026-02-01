@@ -9,9 +9,9 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
-import data.ARG_RECIPE_ID
 import model.Recipe
 import ru.example.androidsprint.R
 import ru.example.androidsprint.databinding.FragmentRecipeBinding
@@ -26,6 +26,7 @@ class RecipeFragment : Fragment() {
 
     private lateinit var ingredientAdapter: IngredientsAdapter
     private lateinit var methodAdapter: MethodAdapter
+    private val arg: RecipeFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,7 +38,7 @@ class RecipeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val recipeId = arguments?.getInt(ARG_RECIPE_ID) ?: return
+        val recipeId = arg.recipeId
 
         viewModel.loadRecipe(recipeId)
 
@@ -81,9 +82,7 @@ class RecipeFragment : Fragment() {
             binding.sbPortions.progress = state.portionsCount
 
             updateAdapterData(recipe, state.portionsCount)
-
         }
-
     }
 
     private fun setupSeekBar() {
@@ -125,7 +124,6 @@ class RecipeFragment : Fragment() {
         methodDivider.isLastItemDecorated = false
         binding.rvMethod.addItemDecoration(methodDivider)
     }
-
 }
 
 class PortionSeekBarListener(
@@ -140,11 +138,8 @@ class PortionSeekBarListener(
     }
 
     override fun onStartTrackingTouch(seekBar: SeekBar?) {
-
     }
 
     override fun onStopTrackingTouch(seekBar: SeekBar?) {
-
     }
-
 }
