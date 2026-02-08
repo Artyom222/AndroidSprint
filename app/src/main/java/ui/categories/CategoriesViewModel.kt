@@ -51,5 +51,4 @@ class CategoriesViewModel(application: Application) : AndroidViewModel(applicati
             null
         }
     }
-
 }

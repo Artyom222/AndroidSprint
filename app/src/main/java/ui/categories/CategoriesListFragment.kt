@@ -6,17 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import data.ARG_CATEGORY_ID
-import data.ARG_CATEGORY_IMAGE_URL
-import data.ARG_CATEGORY_NAME
-import data.STUB
 import model.Category
-import ru.example.androidsprint.R
 import ru.example.androidsprint.databinding.FragmentListCategoriesBinding
-import ui.recipes.recipe_list.RecipesListFragment
 
 class CategoriesListFragment : Fragment() {
     private var _binding: FragmentListCategoriesBinding? = null
@@ -71,12 +64,11 @@ class CategoriesListFragment : Fragment() {
     }
 
     private fun openRecipesByCategoryId(categoryId: Int) {
-        val category = categoriesList.find { it.id == categoryId }
-        val bundle = Bundle().apply {
-            putInt(ARG_CATEGORY_ID, categoryId)
-            putString(ARG_CATEGORY_NAME, category?.title)
-            putString(ARG_CATEGORY_IMAGE_URL, category?.imageUrl)
-        }
-        findNavController().navigate(R.id.recipesListFragment, bundle)
+        val category = categoriesList.find { it.id == categoryId } ?:
+        throw IllegalArgumentException("Category with id $categoryId not found")
+
+        val action = CategoriesListFragmentDirections.
+            actionCategoriesListFragmentToRecipesListFragment(category)
+        findNavController().navigate(action)
     }
 }
