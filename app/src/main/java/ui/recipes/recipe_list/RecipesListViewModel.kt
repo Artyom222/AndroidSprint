@@ -2,15 +2,12 @@ package ui.recipes.recipe_list
 
 import android.app.Application
 import android.graphics.drawable.Drawable
-import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import data.ARG_CATEGORY_ID
-import data.ARG_CATEGORY_IMAGE_URL
-import data.ARG_CATEGORY_NAME
 import data.STUB
+import model.Category
 import model.Recipe
 
 class RecipesListViewModel(application: Application) : AndroidViewModel(application) {
@@ -27,18 +24,14 @@ class RecipesListViewModel(application: Application) : AndroidViewModel(applicat
         Log.i("!!!", "RecipesListViewModel initialized")
     }
 
-    fun loadRecipes(arguments: Bundle?) {
-        val categoryId = arguments?.getInt(ARG_CATEGORY_ID)
-        val categoryName = arguments?.getString(ARG_CATEGORY_NAME)
-        val categoryImageUrl = arguments?.getString(ARG_CATEGORY_IMAGE_URL) ?: return
-        val drawable = loadImageFromAssets(categoryImageUrl)
+    fun loadRecipes(arguments: Category) {
+        val drawable = loadImageFromAssets(arguments.imageUrl)
 
         _liveData.value = RecipesListStates(
             imageCategory = drawable,
-            titleCategory = categoryName,
-            recipes = STUB.getRecipesByCategoryId(categoryId)
+            titleCategory = arguments.title,
+            recipes = STUB.getRecipesByCategoryId(arguments.id)
         )
-
     }
 
     private fun loadImageFromAssets(imageUrl: String): Drawable? {
@@ -50,5 +43,4 @@ class RecipesListViewModel(application: Application) : AndroidViewModel(applicat
             null
         }
     }
-
 }

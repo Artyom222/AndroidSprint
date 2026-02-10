@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import ru.example.androidsprint.databinding.FragmentRecipesListBinding
 import kotlin.getValue
 
@@ -18,6 +19,7 @@ class RecipesListFragment : Fragment() {
             ?: throw IllegalStateException("Binding for FragmentRecipesListBinding must not be null")
     private val viewModel: RecipesListViewModel by viewModels()
     private lateinit var recipesAdapter: RecipesListAdapter
+    private val arg: RecipesListFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,7 +32,8 @@ class RecipesListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.loadRecipes(arguments)
+        val category = arg.category
+        viewModel.loadRecipes(category)
 
         initUI()
         setOnRecipeClickListener()
