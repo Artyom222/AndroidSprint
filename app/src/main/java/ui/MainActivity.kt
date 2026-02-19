@@ -9,15 +9,13 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.findNavController
 import kotlinx.serialization.json.Json
 import model.Category
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
-import okhttp3.logging.HttpLoggingInterceptor
+import model.Recipe
 import ru.example.androidsprint.R
 import ru.example.androidsprint.databinding.ActivityMainBinding
-import java.io.IOException
+import java.net.URL
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
+import javax.net.ssl.HttpsURLConnection
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,6 +23,8 @@ class MainActivity : AppCompatActivity() {
     private val binding
         get() = _binding
             ?: throw IllegalStateException("Binding for ActivityMainBinding must not be null")
+
+    private val threadPool: ExecutorService = Executors.newFixedThreadPool(10)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,33 +46,46 @@ class MainActivity : AppCompatActivity() {
             findNavController(R.id.mainContainer).navigate(R.id.favoritesFragment)
         }
 
-        val logging = HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
-        }
-        val client = OkHttpClient.Builder()
-            .addInterceptor(logging)
-            .build()
+        threadPool.execute {
+            val url = URL("https://recipes.androidsprint.ru/api/category")
+            val connection = url.openConnection() as HttpsURLConnection
+            connection.connect()
 
-        val request = Request.Builder()
-            .url("https://recipes.androidsprint.ru/api/category")
-            .get()
-            .build()
+            Log.i("!!!", "Выполняется запрос на потоке: ${Thread.currentThread().name}")
+            Log.i("!!!", "responseCode: ${connection.responseCode}")
+            Log.i("!!!", "responseMessage: ${connection.responseMessage}")
+            val categories = Json.decodeFromString<List<Category>>(
+                connection.inputStream.bufferedReader().readText()
+            )
 
-        client.newCall(request).enqueue(object: Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                Log.e("!!!", "Ошибка запроса: ${e.message}")
+            categories.forEach { category ->
+                Log.i("!!!", "Категория: ${category.title}, id: ${category.id}")
             }
-            override fun onResponse(call: Call, response: Response) {
-                Log.i("!!!", "Выполняется запрос на потоке: ${Thread.currentThread().name}")
-                Log.i("!!!", "responseCode: ${response.code}")
-                Log.i("!!!", "responseMessage: ${response.message}")
 
-                val body = response.body?.string() ?: return
-                val categories = Json.decodeFromString<List<Category>>(body)
-                categories.forEach { category ->
-                    Log.i("!!!", "Категория: ${category.title}, id: ${category.id}")
+            connection.disconnect()
+
+            val categoryIds = categories.map { it.id }
+            categoryIds.forEach { id ->
+                threadPool.execute {
+                    val url = URL("https://recipes.androidsprint.ru/api/category/$id/recipes")
+                    val connection = url.openConnection() as HttpsURLConnection
+                    connection.connect()
+                    Log.i("!!!", "Выполняется запрос на потоке: ${Thread.currentThread().name}")
+                    val recipesByCategoryId = Json.decodeFromString<List<Recipe>>(
+                        connection.inputStream.bufferedReader().readText()
+                    )
+                    Log.i("!!!", "Id категории: $id")
+                    recipesByCategoryId.forEach { recipe ->
+                        Log.i("!!!", "Рецепт: ${recipe.title}")
+                    }
+                    connection.disconnect()
                 }
             }
-        })
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        threadPool.shutdown()
     }
 }
