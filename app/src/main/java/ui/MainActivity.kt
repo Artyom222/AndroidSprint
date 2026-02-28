@@ -10,12 +10,13 @@ import androidx.navigation.findNavController
 import kotlinx.serialization.json.Json
 import model.Category
 import model.Recipe
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.logging.HttpLoggingInterceptor
 import ru.example.androidsprint.R
 import ru.example.androidsprint.databinding.ActivityMainBinding
-import java.net.URL
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
-import javax.net.ssl.HttpsURLConnection
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,6 +26,12 @@ class MainActivity : AppCompatActivity() {
             ?: throw IllegalStateException("Binding for ActivityMainBinding must not be null")
 
     private val threadPool: ExecutorService = Executors.newFixedThreadPool(10)
+    private val logging = HttpLoggingInterceptor().apply {
+        level = HttpLoggingInterceptor.Level.BODY
+    }
+    private val client = OkHttpClient.Builder()
+        .addInterceptor(logging)
+        .build()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,39 +54,49 @@ class MainActivity : AppCompatActivity() {
         }
 
         threadPool.execute {
-            val url = URL("https://recipes.androidsprint.ru/api/category")
-            val connection = url.openConnection() as HttpsURLConnection
-            connection.connect()
+            try {
+                val request = Request.Builder()
+                    .url("https://recipes.androidsprint.ru/api/category")
+                    .build()
 
-            Log.i("!!!", "Выполняется запрос на потоке: ${Thread.currentThread().name}")
-            Log.i("!!!", "responseCode: ${connection.responseCode}")
-            Log.i("!!!", "responseMessage: ${connection.responseMessage}")
-            val categories = Json.decodeFromString<List<Category>>(
-                connection.inputStream.bufferedReader().readText()
-            )
-
-            categories.forEach { category ->
-                Log.i("!!!", "Категория: ${category.title}, id: ${category.id}")
-            }
-
-            connection.disconnect()
-
-            val categoryIds = categories.map { it.id }
-            categoryIds.forEach { id ->
-                threadPool.execute {
-                    val url = URL("https://recipes.androidsprint.ru/api/category/$id/recipes")
-                    val connection = url.openConnection() as HttpsURLConnection
-                    connection.connect()
+                client.newCall(request).execute().use { response ->
+                    if (!response.isSuccessful) throw Exception("Unexpected code $response")
                     Log.i("!!!", "Выполняется запрос на потоке: ${Thread.currentThread().name}")
-                    val recipesByCategoryId = Json.decodeFromString<List<Recipe>>(
-                        connection.inputStream.bufferedReader().readText()
+
+                    val categories = Json.decodeFromString<List<Category>>(
+                        response.body?.string()
+                            ?: throw IllegalStateException("Response body is null")
                     )
-                    Log.i("!!!", "Id категории: $id")
-                    recipesByCategoryId.forEach { recipe ->
-                        Log.i("!!!", "Рецепт: ${recipe.title}")
+                    categories.forEach { category ->
+                        Log.i("!!!", "Категория: ${category.title}, id: ${category.id}")
                     }
-                    connection.disconnect()
+                    val categoryIds = categories.map { it.id }
+                    categoryIds.forEach { id ->
+                        threadPool.execute {
+                            try {
+                                val request = Request.Builder()
+                                    .url("https://recipes.androidsprint.ru/api/category/$id/recipes")
+                                    .build()
+                                client.newCall(request).execute().use { response ->
+                                    if (!response.isSuccessful) throw Exception("Unexpected code $response")
+                                    Log.i("!!!", "Выполняется запрос на потоке: ${Thread.currentThread().name}")
+                                    val recipesByCategoryId = Json.decodeFromString<List<Recipe>>(
+                                        response.body?.string()
+                                            ?: throw IllegalStateException("Response body is null")
+                                    )
+                                    Log.i("!!!", "Id категории: $id")
+                                    recipesByCategoryId.forEach { recipe ->
+                                        Log.i("!!!", "Рецепт: ${recipe.title}")
+                                    }
+                                }
+                            } catch (e: Exception) {
+                                Log.e("!!!", "Ошибка загрузки рецептов категории $id", e)
+                            }
+                        }
+                    }
                 }
+            } catch (e: Exception) {
+                Log.e("!!!", "Ошибка загрузки категорий", e)
             }
         }
     }
