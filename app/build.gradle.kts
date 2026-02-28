@@ -44,10 +44,12 @@ android {
 }
 
 dependencies {
+    implementation(libs.converter.gson)
     implementation(libs.navigation.compose)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
     implementation(libs.navigation.dynamic.features)
+    implementation(libs.retrofit)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.cardview)
     implementation(libs.androidx.recyclerview)
