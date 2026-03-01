@@ -3,22 +3,27 @@ package ui.recipes.recipe_list
 import android.app.Application
 import android.graphics.drawable.Drawable
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import data.STUB
+import data.RecipesRepository
 import model.Category
 import model.Recipe
+import java.util.concurrent.Executors
 
 class RecipesListViewModel(application: Application) : AndroidViewModel(application) {
     data class RecipesListStates(
         val imageCategory: Drawable? = null,
         val titleCategory: String? = null,
         val recipes: List<Recipe> = emptyList(),
+        val errorMessage: String? = null,
     )
 
     private val _liveData: MutableLiveData<RecipesListStates> = MutableLiveData()
     val liveData: LiveData<RecipesListStates> = _liveData
+    private val threadPool = Executors.newFixedThreadPool(10)
+    private val repository = RecipesRepository()
 
     init {
         Log.i("!!!", "RecipesListViewModel initialized")
@@ -26,12 +31,25 @@ class RecipesListViewModel(application: Application) : AndroidViewModel(applicat
 
     fun loadRecipes(arguments: Category) {
         val drawable = loadImageFromAssets(arguments.imageUrl)
+        threadPool.execute {
+            try {
+                val recipes = repository.getRecipesByCategoryId(arguments.id)
 
-        _liveData.value = RecipesListStates(
-            imageCategory = drawable,
-            titleCategory = arguments.title,
-            recipes = STUB.getRecipesByCategoryId(arguments.id)
-        )
+                runOnUiThread {
+                    _liveData.value = RecipesListStates(
+                        imageCategory = drawable,
+                        titleCategory = arguments.title,
+                        recipes = recipes,
+                        errorMessage = null,
+                    )
+                }
+            } catch (e: Exception) {
+                Log.e("!!!", "Ошибка загрузки рецептов", e)
+                _liveData.value = RecipesListStates(
+                    errorMessage = "Ошибка получения данных"
+                )
+            }
+        }
     }
 
     private fun loadImageFromAssets(imageUrl: String): Drawable? {
@@ -42,5 +60,14 @@ class RecipesListViewModel(application: Application) : AndroidViewModel(applicat
             Log.e("!!!", "Image not found: $imageUrl", e)
             null
         }
+    }
+
+    private fun runOnUiThread(action: () -> Unit) {
+        android.os.Handler(android.os.Looper.getMainLooper()).post(action)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        threadPool.shutdown()
     }
 }
