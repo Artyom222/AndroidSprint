@@ -19,13 +19,14 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         val recipe: Recipe? = null,
         val portionsCount: Int = 1,
         val isFavorite: Boolean = false,
-        val recipeImage: Drawable? = null
+        val recipeImage: Drawable? = null,
+        val errorMessage: String? = null,
     )
 
     private val _liveData: MutableLiveData<RecipeState> = MutableLiveData()
     val liveData: LiveData<RecipeState> = _liveData
     private val threadPool = Executors.newFixedThreadPool(10)
-    val repository = RecipesRepository()
+    private val repository = RecipesRepository()
 
     init {
         Log.i("!!!", "ViewModel initialized")
@@ -46,14 +47,15 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
                         recipe = recipe,
                         portionsCount = portionsCount,
                         isFavorite = isFavorite,
-                        recipeImage = recipeImage
+                        recipeImage = recipeImage,
+                        errorMessage = null,
                     )
                 }
-            }catch (e: Exception) {
+            } catch (e: Exception) {
                 Log.e("!!!", "Ошибка загрузки рецепта", e)
-                val text = "Ошибка получения данных"
-                val duration = Toast.LENGTH_SHORT
-                Toast.makeText(getApplication<Application>().applicationContext, text, duration).show()
+                _liveData.value = RecipeState(
+                    errorMessage = "Ошибка получения данных"
+                )
             }
         }
     }

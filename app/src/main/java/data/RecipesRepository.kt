@@ -1,21 +1,19 @@
 package data
 
 import android.util.Log
-
 import model.Category
 import model.Recipe
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 
-
 class RecipesRepository {
-    val retrofit = Retrofit.Builder()
+    private val retrofit = Retrofit.Builder()
         .baseUrl("https://recipes.androidsprint.ru/api/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    val service = retrofit.create(RecipeApiService::class.java)
+    private val service = retrofit.create(RecipeApiService::class.java)
 
     fun getCategories(): List<Category>  {
         return try {

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -53,6 +54,12 @@ class RecipesListFragment : Fragment() {
             binding.ivRecipe.setImageDrawable(state.imageCategory)
             binding.tvTitleRecipe.text = state.titleCategory
             recipesAdapter.updateData(state.recipes)
+
+            if (state.errorMessage != null) {
+                val text = state.errorMessage
+                val duration = Toast.LENGTH_SHORT
+                Toast.makeText(context?.applicationContext, text, duration).show()
+            }
         }
     }
 

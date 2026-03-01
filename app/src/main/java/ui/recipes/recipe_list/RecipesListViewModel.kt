@@ -17,12 +17,13 @@ class RecipesListViewModel(application: Application) : AndroidViewModel(applicat
         val imageCategory: Drawable? = null,
         val titleCategory: String? = null,
         val recipes: List<Recipe> = emptyList(),
+        val errorMessage: String? = null,
     )
 
     private val _liveData: MutableLiveData<RecipesListStates> = MutableLiveData()
     val liveData: LiveData<RecipesListStates> = _liveData
     private val threadPool = Executors.newFixedThreadPool(10)
-    val repository = RecipesRepository()
+    private val repository = RecipesRepository()
 
     init {
         Log.i("!!!", "RecipesListViewModel initialized")
@@ -38,17 +39,17 @@ class RecipesListViewModel(application: Application) : AndroidViewModel(applicat
                     _liveData.value = RecipesListStates(
                         imageCategory = drawable,
                         titleCategory = arguments.title,
-                        recipes = recipes
+                        recipes = recipes,
+                        errorMessage = null,
                     )
                 }
             } catch (e: Exception) {
                 Log.e("!!!", "Ошибка загрузки рецептов", e)
-                val text = "Ошибка получения данных"
-                val duration = Toast.LENGTH_SHORT
-                Toast.makeText(getApplication<Application>().applicationContext, text, duration).show()
+                _liveData.value = RecipesListStates(
+                    errorMessage = "Ошибка получения данных"
+                )
             }
         }
-
     }
 
     private fun loadImageFromAssets(imageUrl: String): Drawable? {

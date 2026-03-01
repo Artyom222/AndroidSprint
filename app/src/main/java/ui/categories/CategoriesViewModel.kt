@@ -2,6 +2,7 @@ package ui.categories
 
 import android.app.Application
 import android.graphics.drawable.Drawable
+import android.os.Message
 import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -18,12 +19,13 @@ class CategoriesViewModel(application: Application) : AndroidViewModel(applicati
         val image: Drawable? = null,
         val title: String? = null,
         val categories: List<Category> = emptyList(),
+        val errorMessage: String? = null,
     )
 
     private val _liveData: MutableLiveData<CategoriesState> = MutableLiveData()
     val liveData: LiveData<CategoriesState> = _liveData
     private val threadPool = Executors.newFixedThreadPool(10)
-    val repository = RecipesRepository()
+    private val repository = RecipesRepository()
 
     init {
         Log.i("!!!", "CategoriesViewModel initialized")
@@ -41,13 +43,14 @@ class CategoriesViewModel(application: Application) : AndroidViewModel(applicati
                         image = image,
                         title = title,
                         categories = categories,
+                        errorMessage = null,
                     )
                 }
             } catch (e: Exception) {
                 Log.e("!!!", "Ошибка загрузки категорий", e)
-                val text = "Ошибка получения данных"
-                val duration = Toast.LENGTH_SHORT
-                Toast.makeText(getApplication<Application>().applicationContext, text, duration).show()
+                _liveData.value = CategoriesState(
+                    errorMessage = "Ошибка получения данных"
+                )
             }
         }
     }
