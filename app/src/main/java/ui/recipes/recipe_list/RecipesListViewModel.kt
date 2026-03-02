@@ -3,7 +3,6 @@ package ui.recipes.recipe_list
 import android.app.Application
 import android.graphics.drawable.Drawable
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -45,9 +44,9 @@ class RecipesListViewModel(application: Application) : AndroidViewModel(applicat
                 }
             } catch (e: Exception) {
                 Log.e("!!!", "Ошибка загрузки рецептов", e)
-                _liveData.value = RecipesListStates(
+                _liveData.postValue(RecipesListStates(
                     errorMessage = "Ошибка получения данных"
-                )
+                ))
             }
         }
     }

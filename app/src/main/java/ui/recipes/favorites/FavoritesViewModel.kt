@@ -53,9 +53,9 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
                 }
             } catch (e: Exception) {
                 Log.e("!!!", "Ошибка загрузки рецептов", e)
-                _liveData.value = FavoritesState(
+                _liveData.postValue(FavoritesState(
                     errorMessage = "Ошибка получения данных"
-                )
+                ))
             }
         }
     }

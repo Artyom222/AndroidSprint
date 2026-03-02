@@ -2,9 +2,7 @@ package ui.categories
 
 import android.app.Application
 import android.graphics.drawable.Drawable
-import android.os.Message
 import android.util.Log
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -48,9 +46,9 @@ class CategoriesViewModel(application: Application) : AndroidViewModel(applicati
                 }
             } catch (e: Exception) {
                 Log.e("!!!", "Ошибка загрузки категорий", e)
-                _liveData.value = CategoriesState(
+                _liveData.postValue(CategoriesState(
                     errorMessage = "Ошибка получения данных"
-                )
+                ))
             }
         }
     }

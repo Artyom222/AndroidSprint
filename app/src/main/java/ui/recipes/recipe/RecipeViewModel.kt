@@ -53,9 +53,9 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
                 }
             } catch (e: Exception) {
                 Log.e("!!!", "Ошибка загрузки рецепта", e)
-                _liveData.value = RecipeState(
+                _liveData.postValue(RecipeState(
                     errorMessage = "Ошибка получения данных"
-                )
+                ))
             }
         }
     }
