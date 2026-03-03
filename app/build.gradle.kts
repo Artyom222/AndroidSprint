@@ -44,6 +44,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.glide)
     implementation(libs.lifecycle.livedata.ktx)
     implementation(libs.glide)
     implementation(libs.converter.gson)
