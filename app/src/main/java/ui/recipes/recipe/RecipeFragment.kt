@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -80,6 +81,12 @@ class RecipeFragment : Fragment() {
 
             binding.tvCountPortions.text = state.portionsCount.toString()
             binding.sbPortions.progress = state.portionsCount
+
+            if (state.errorMessage != null) {
+                val text = state.errorMessage
+                val duration = Toast.LENGTH_SHORT
+                Toast.makeText(context?.applicationContext, text, duration).show()
+            }
 
             updateAdapterData(recipe, state.portionsCount)
         }

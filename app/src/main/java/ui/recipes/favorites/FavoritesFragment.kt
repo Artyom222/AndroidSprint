@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -52,6 +53,12 @@ class FavoritesFragment : Fragment() {
             if (state.favoriteRecipes.isEmpty()) {
                 binding.tvEmptyState.visibility = View.VISIBLE
                 binding.rvRecipes.visibility = View.GONE
+            }
+
+            if (state.errorMessage != null) {
+                val text = state.errorMessage
+                val duration = Toast.LENGTH_SHORT
+                Toast.makeText(context?.applicationContext, text, duration).show()
             }
         }
     }

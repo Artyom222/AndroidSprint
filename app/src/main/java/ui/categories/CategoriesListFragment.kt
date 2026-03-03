@@ -1,11 +1,13 @@
 package ui.categories
 
+import android.app.Application
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import model.Category
@@ -51,6 +53,12 @@ class CategoriesListFragment : Fragment() {
             binding.ivCategories.setImageDrawable(state.image)
             categoriesList = state.categories
             categoriesAdapter.updateData(categoriesList)
+
+            if (state.errorMessage != null) {
+                val text = state.errorMessage
+                val duration = Toast.LENGTH_SHORT
+                Toast.makeText(context?.applicationContext, text, duration).show()
+            }
         }
     }
 
