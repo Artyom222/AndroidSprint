@@ -10,6 +10,8 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
+import ru.example.androidsprint.R
 import ru.example.androidsprint.databinding.FragmentRecipesListBinding
 import kotlin.getValue
 
@@ -51,9 +53,16 @@ class RecipesListFragment : Fragment() {
 
         viewModel.liveData.observe(viewLifecycleOwner) { state ->
             Log.i("!!!", "state change")
-            binding.ivRecipe.setImageDrawable(state.imageCategory)
             binding.tvTitleRecipe.text = state.titleCategory
             recipesAdapter.updateData(state.recipes)
+
+            val imageView =  binding.ivRecipe
+            val imageUrl = state.imageUrl
+            Glide.with(imageView.context)
+                .load("https://recipes.androidsprint.ru/api/images/$imageUrl")
+                .placeholder(R.drawable.img_placeholder)
+                .error(R.drawable.img_error)
+                .into(imageView);
 
             if (state.errorMessage != null) {
                 val text = state.errorMessage

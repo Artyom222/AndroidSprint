@@ -2,9 +2,7 @@ package ui.recipes.recipe
 
 import android.app.Application
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -19,7 +17,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         val recipe: Recipe? = null,
         val portionsCount: Int = 1,
         val isFavorite: Boolean = false,
-        val recipeImage: Drawable? = null,
+        val recipeImageUrl: String? = null,
         val errorMessage: String? = null,
     )
 
@@ -40,33 +38,24 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         threadPool.execute {
             try {
                 val recipe = repository.getRecipeById(recipeId)
-                val recipeImage = loadImageFromAssets(recipe?.imageUrl ?: return@execute)
-
-                runOnUiThread {
-                    _liveData.value = RecipeState(
+                val recipeImageUrl = recipe?.imageUrl
+                _liveData.postValue(
+                    RecipeState(
                         recipe = recipe,
                         portionsCount = portionsCount,
                         isFavorite = isFavorite,
-                        recipeImage = recipeImage,
+                        recipeImageUrl = recipeImageUrl,
                         errorMessage = null,
                     )
-                }
+                )
             } catch (e: Exception) {
                 Log.e("!!!", "Ошибка загрузки рецепта", e)
-                _liveData.value = RecipeState(
-                    errorMessage = "Ошибка получения данных"
+                _liveData.postValue(
+                    RecipeState(
+                        errorMessage = "Ошибка получения данных"
+                    )
                 )
             }
-        }
-    }
-
-    private fun loadImageFromAssets(imageUrl: String): Drawable? {
-        return try {
-            val inputStream = getApplication<Application>().assets.open(imageUrl)
-            Drawable.createFromStream(inputStream, null)
-        } catch (e: Exception) {
-            Log.e("!!!", "Image not found: $imageUrl", e)
-            null
         }
     }
 
@@ -110,10 +99,6 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     fun updatePortionsCount(portionsCount: Int) {
         val currentState = _liveData.value ?: return
         _liveData.value = currentState.copy(portionsCount = portionsCount)
-    }
-
-    private fun runOnUiThread(action: () -> Unit) {
-        android.os.Handler(android.os.Looper.getMainLooper()).post(action)
     }
 
     override fun onCleared() {

@@ -1,12 +1,11 @@
 package ui.categories
 
-import android.graphics.drawable.Drawable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import model.Category
-import model.Recipe
+import ru.example.androidsprint.R
 import ru.example.androidsprint.databinding.ItemCategoryBinding
 
 class CategoriesListAdapter(private var dataSet: List<Category>) :
@@ -38,16 +37,13 @@ class CategoriesListAdapter(private var dataSet: List<Category>) :
         viewHolder.binding.tvTitleCategory.text = category.title
         viewHolder.binding.tvDescriptionCategory.text = category.description
 
-        val drawable = try {
-            Drawable.createFromStream(
-                viewHolder.binding.root.context.assets.open(category.imageUrl),
-                null
-            )
-        } catch (e: Exception) {
-            Log.e("!!!", "Image not found")
-            null
-        }
-        viewHolder.binding.ivCategory.setImageDrawable(drawable)
+        val imageView =  viewHolder.binding.ivCategory
+        val imageUrl = category.imageUrl
+        Glide.with(imageView.context)
+            .load("https://recipes.androidsprint.ru/api/images/$imageUrl")
+            .placeholder(R.drawable.img_placeholder)
+            .error(R.drawable.img_error)
+            .into(imageView);
 
         viewHolder.binding.root.setOnClickListener {
             itemClickListener?.onItemClick(category.id)

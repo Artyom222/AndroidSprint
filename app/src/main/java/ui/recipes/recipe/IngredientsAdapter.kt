@@ -30,15 +30,21 @@ class IngredientsAdapter(var dataSet: List<Ingredient>) :
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val ingredient: Ingredient = dataSet[position]
         viewHolder.binding.tvIngredient.text = ingredient.description.uppercase()
-        val quantity = BigDecimal(ingredient.quantity)
-        val result = quantity.multiply(BigDecimal(quantityPortions))
-        val formattedQuantity = if (result.stripTrailingZeros().scale() <= 0) {
-            result.toInt().toString()
-        } else {
-            result.setScale(1, RoundingMode.HALF_UP).toString()
+
+        val quantityText = try {
+            val quantity = BigDecimal(ingredient.quantity)
+            val result = quantity.multiply(BigDecimal(quantityPortions))
+            if (result.stripTrailingZeros().scale() <= 0) {
+                result.toInt().toString()
+            } else {
+                result.setScale(1, RoundingMode.HALF_UP).toString()
+            }
+        } catch (e: NumberFormatException) {
+            ingredient.quantity
         }
+
         viewHolder.binding.tvQuantity.text =
-            "$formattedQuantity ${ingredient.unitOfMeasure.uppercase()}"
+            "$quantityText ${ingredient.unitOfMeasure.uppercase()}"
     }
 
     override fun getItemCount(): Int = dataSet.size
