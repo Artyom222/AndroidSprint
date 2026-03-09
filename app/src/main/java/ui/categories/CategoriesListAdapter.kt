@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import data.RECIPES_API
 import model.Category
 import ru.example.androidsprint.R
 import ru.example.androidsprint.databinding.ItemCategoryBinding
@@ -40,10 +41,10 @@ class CategoriesListAdapter(private var dataSet: List<Category>) :
         val imageView =  viewHolder.binding.ivCategory
         val imageUrl = category.imageUrl
         Glide.with(imageView.context)
-            .load("https://recipes.androidsprint.ru/api/images/$imageUrl")
+            .load("${RECIPES_API}images/$imageUrl")
             .placeholder(R.drawable.img_placeholder)
             .error(R.drawable.img_error)
-            .into(imageView);
+            .into(imageView)
 
         viewHolder.binding.root.setOnClickListener {
             itemClickListener?.onItemClick(category.id)

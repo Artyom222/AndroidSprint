@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import data.RECIPES_API
 import model.Recipe
 import ru.example.androidsprint.R
 import ru.example.androidsprint.databinding.ItemRecipeBinding
@@ -36,25 +37,23 @@ class RecipesListAdapter(private var dataSet: List<Recipe>) :
         val recipe: Recipe = dataSet[position]
         viewHolder.binding.tvTitleRecipe.text = recipe.title
 
-        val imageView =  viewHolder.binding.ivRecipe
+        val imageView = viewHolder.binding.ivRecipe
         val imageUrl = recipe.imageUrl
         Glide.with(imageView.context)
-            .load("https://recipes.androidsprint.ru/api/images/$imageUrl")
+            .load("${RECIPES_API}images/$imageUrl")
             .placeholder(R.drawable.img_placeholder)
             .error(R.drawable.img_error)
-            .into(imageView);
+            .into(imageView)
 
         viewHolder.binding.root.setOnClickListener {
             itemClickListener?.onItemClick(recipe.id)
         }
-
     }
 
     override fun getItemCount(): Int = dataSet.size
 
-    fun updateData(newRecipes: List<Recipe>){
+    fun updateData(newRecipes: List<Recipe>) {
         this.dataSet = newRecipes
         notifyDataSetChanged()
     }
-
 }

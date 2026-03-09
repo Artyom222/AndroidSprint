@@ -14,6 +14,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.material.divider.MaterialDividerItemDecoration
+import data.RECIPES_API
 import model.Recipe
 import ru.example.androidsprint.R
 import ru.example.androidsprint.databinding.FragmentRecipeBinding
@@ -75,10 +76,10 @@ class RecipeFragment : Fragment() {
             val imageView =  binding.ivRecipe
             val imageUrl = state.recipeImageUrl
             Glide.with(imageView.context)
-                .load("https://recipes.androidsprint.ru/api/images/$imageUrl")
+                .load("${RECIPES_API}images/$imageUrl")
                 .placeholder(R.drawable.img_placeholder)
                 .error(R.drawable.img_error)
-                .into(imageView);
+                .into(imageView)
 
             updateFavoriteIcon(state.isFavorite)
             binding.ibFavorite.setOnClickListener {
