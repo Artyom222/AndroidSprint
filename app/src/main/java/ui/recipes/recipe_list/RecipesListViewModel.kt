@@ -1,7 +1,6 @@
 package ui.recipes.recipe_list
 
 import android.app.Application
-import android.graphics.drawable.Drawable
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -13,7 +12,7 @@ import java.util.concurrent.Executors
 
 class RecipesListViewModel(application: Application) : AndroidViewModel(application) {
     data class RecipesListStates(
-        val imageCategory: Drawable? = null,
+        val imageUrl: String? = null,
         val titleCategory: String? = null,
         val recipes: List<Recipe> = emptyList(),
         val errorMessage: String? = null,
@@ -29,40 +28,26 @@ class RecipesListViewModel(application: Application) : AndroidViewModel(applicat
     }
 
     fun loadRecipes(arguments: Category) {
-        val drawable = loadImageFromAssets(arguments.imageUrl)
         threadPool.execute {
             try {
                 val recipes = repository.getRecipesByCategoryId(arguments.id)
-
-                runOnUiThread {
-                    _liveData.value = RecipesListStates(
-                        imageCategory = drawable,
+                _liveData.postValue(
+                    RecipesListStates(
+                        imageUrl = arguments.imageUrl,
                         titleCategory = arguments.title,
                         recipes = recipes,
                         errorMessage = null,
                     )
-                }
+                )
             } catch (e: Exception) {
                 Log.e("!!!", "Ошибка загрузки рецептов", e)
-                _liveData.postValue(RecipesListStates(
-                    errorMessage = "Ошибка получения данных"
-                ))
+                _liveData.postValue(
+                    RecipesListStates(
+                        errorMessage = "Ошибка получения данных"
+                    )
+                )
             }
         }
-    }
-
-    private fun loadImageFromAssets(imageUrl: String): Drawable? {
-        return try {
-            val inputStream = getApplication<Application>().assets.open(imageUrl)
-            Drawable.createFromStream(inputStream, null)
-        } catch (e: Exception) {
-            Log.e("!!!", "Image not found: $imageUrl", e)
-            null
-        }
-    }
-
-    private fun runOnUiThread(action: () -> Unit) {
-        android.os.Handler(android.os.Looper.getMainLooper()).post(action)
     }
 
     override fun onCleared() {

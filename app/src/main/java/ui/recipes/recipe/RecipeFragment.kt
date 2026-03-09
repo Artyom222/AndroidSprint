@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import model.Recipe
 import ru.example.androidsprint.R
@@ -71,10 +72,15 @@ class RecipeFragment : Fragment() {
             }
 
             binding.tvNameRecipe.text = recipe.title
-            binding.ivRecipe.setImageDrawable(state.recipeImage)
+            val imageView =  binding.ivRecipe
+            val imageUrl = state.recipeImageUrl
+            Glide.with(imageView.context)
+                .load("https://recipes.androidsprint.ru/api/images/$imageUrl")
+                .placeholder(R.drawable.img_placeholder)
+                .error(R.drawable.img_error)
+                .into(imageView);
 
             updateFavoriteIcon(state.isFavorite)
-
             binding.ibFavorite.setOnClickListener {
                 viewModel.onFavoritesClicked()
             }

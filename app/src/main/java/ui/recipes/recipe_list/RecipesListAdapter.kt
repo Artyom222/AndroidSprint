@@ -1,11 +1,11 @@
 package ui.recipes.recipe_list
 
-import android.graphics.drawable.Drawable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import model.Recipe
+import ru.example.androidsprint.R
 import ru.example.androidsprint.databinding.ItemRecipeBinding
 
 class RecipesListAdapter(private var dataSet: List<Recipe>) :
@@ -35,16 +35,14 @@ class RecipesListAdapter(private var dataSet: List<Recipe>) :
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val recipe: Recipe = dataSet[position]
         viewHolder.binding.tvTitleRecipe.text = recipe.title
-        val drawable = try {
-            Drawable.createFromStream(
-                viewHolder.binding.root.context.assets.open(recipe.imageUrl.toString()),
-                null
-            )
-        } catch (e: Exception) {
-            Log.e("!!!", "Image not found")
-            null
-        }
-        viewHolder.binding.ivRecipe.setImageDrawable(drawable)
+
+        val imageView =  viewHolder.binding.ivRecipe
+        val imageUrl = recipe.imageUrl
+        Glide.with(imageView.context)
+            .load("https://recipes.androidsprint.ru/api/images/$imageUrl")
+            .placeholder(R.drawable.img_placeholder)
+            .error(R.drawable.img_error)
+            .into(imageView);
 
         viewHolder.binding.root.setOnClickListener {
             itemClickListener?.onItemClick(recipe.id)

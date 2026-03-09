@@ -30,46 +30,30 @@ class CategoriesViewModel(application: Application) : AndroidViewModel(applicati
     }
 
     fun loadCategories() {
-        val image = loadImageFromRes("bcg_categories")
+        val image = ContextCompat.getDrawable(
+            getApplication<Application>().applicationContext,
+            R.drawable.bcg_categories)
         val title = getApplication<Application>().getString(R.string.title_ingredients)
         threadPool.execute {
             try {
                 val categories = repository.getCategories()
-
-                runOnUiThread {
-                    _liveData.value = CategoriesState(
+                _liveData.postValue(
+                    CategoriesState(
                         image = image,
                         title = title,
                         categories = categories,
                         errorMessage = null,
                     )
-                }
+                )
             } catch (e: Exception) {
                 Log.e("!!!", "Ошибка загрузки категорий", e)
-                _liveData.postValue(CategoriesState(
-                    errorMessage = "Ошибка получения данных"
-                ))
+                _liveData.postValue(
+                    CategoriesState(
+                        errorMessage = "Ошибка получения данных"
+                    )
+                )
             }
         }
-    }
-
-    private fun loadImageFromRes(imageName: String): Drawable? {
-        return try {
-            val context = getApplication<Application>().applicationContext
-            val resId = context.resources.getIdentifier(
-                imageName,
-                "drawable",
-                context.packageName
-            )
-            ContextCompat.getDrawable(context, resId)
-        } catch (e: Exception) {
-            Log.e("!!!", "Image not found: $imageName", e)
-            null
-        }
-    }
-
-    private fun runOnUiThread(action: () -> Unit) {
-        android.os.Handler(android.os.Looper.getMainLooper()).post(action)
     }
 
     override fun onCleared() {

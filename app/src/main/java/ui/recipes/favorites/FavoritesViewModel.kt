@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.Log
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -12,7 +11,6 @@ import androidx.lifecycle.MutableLiveData
 import data.FAVORITES_KEY
 import data.RecipesRepository
 import data.SHARED_PREFS_NAME
-
 import model.Recipe
 import ru.example.androidsprint.R
 import java.util.concurrent.Executors
@@ -35,43 +33,31 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     fun loadFavorites() {
-        val image = loadImageFromRes("bcg_categories")
+        val image = ContextCompat.getDrawable(
+            getApplication<Application>().applicationContext,
+            R.drawable.bcg_categories)
         val title = getApplication<Application>().getString(R.string.title_favorites)
         val favoriteRecipeIds = getFavorites().mapNotNull { it.toIntOrNull() }.toSet()
 
         threadPool.execute {
             try {
                 val favoriteRecipes = repository.getRecipesByIds(favoriteRecipeIds)
-
-                runOnUiThread {
-                    _liveData.value = FavoritesState(
+                _liveData.postValue(
+                    FavoritesState(
                         image = image,
                         title = title,
                         favoriteRecipes = favoriteRecipes,
                         errorMessage = null,
                     )
-                }
+                )
             } catch (e: Exception) {
                 Log.e("!!!", "Ошибка загрузки рецептов", e)
-                _liveData.postValue(FavoritesState(
-                    errorMessage = "Ошибка получения данных"
-                ))
+                _liveData.postValue(
+                    FavoritesState(
+                        errorMessage = "Ошибка получения данных"
+                    )
+                )
             }
-        }
-    }
-
-    private fun loadImageFromRes(imageName: String): Drawable? {
-        return try {
-            val context = getApplication<Application>().applicationContext
-            val resId = context.resources.getIdentifier(
-                imageName,
-                "drawable",
-                context.packageName
-            )
-            ContextCompat.getDrawable(context, resId)
-        } catch (e: Exception) {
-            Log.e("!!!", "Image not found: $imageName", e)
-            null
         }
     }
 
@@ -81,10 +67,6 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
         )
         val savedSet = sharedPrefs?.getStringSet(FAVORITES_KEY, emptySet()) ?: emptySet()
         return HashSet(savedSet)
-    }
-
-    private fun runOnUiThread(action: () -> Unit) {
-        android.os.Handler(android.os.Looper.getMainLooper()).post(action)
     }
 
     override fun onCleared() {
