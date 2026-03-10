@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.safe.args.kotlin)
     id("kotlin-parcelize")
     kotlin("plugin.serialization") version "2.0.21"
+    id("com.google.devtools.ksp") version "2.0.21-1.0.28"
 }
 
 android {
@@ -44,6 +45,10 @@ android {
 }
 
 dependencies {
+    implementation(libs.room.runtime)
+    annotationProcessor(libs.room.compiler)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.core)
     implementation(libs.lifecycle.livedata.ktx)
     implementation(libs.glide)
     implementation(libs.converter.gson)
