@@ -7,10 +7,11 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import data.RecipesRepository
+import kotlinx.coroutines.launch
 import model.Category
 import ru.example.androidsprint.R
-import java.util.concurrent.Executors
 
 class CategoriesViewModel(application: Application) : AndroidViewModel(application) {
     data class CategoriesState(
@@ -22,7 +23,6 @@ class CategoriesViewModel(application: Application) : AndroidViewModel(applicati
 
     private val _liveData: MutableLiveData<CategoriesState> = MutableLiveData()
     val liveData: LiveData<CategoriesState> = _liveData
-    private val threadPool = Executors.newFixedThreadPool(10)
     private val repository = RecipesRepository()
 
     init {
@@ -34,7 +34,7 @@ class CategoriesViewModel(application: Application) : AndroidViewModel(applicati
             getApplication<Application>().applicationContext,
             R.drawable.bcg_categories)
         val title = getApplication<Application>().getString(R.string.title_ingredients)
-        threadPool.execute {
+        viewModelScope.launch {
             try {
                 val categories = repository.getCategories()
                 _liveData.postValue(
@@ -54,10 +54,5 @@ class CategoriesViewModel(application: Application) : AndroidViewModel(applicati
                 )
             }
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        threadPool.shutdown()
     }
 }

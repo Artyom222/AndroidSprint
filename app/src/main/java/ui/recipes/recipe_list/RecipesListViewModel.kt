@@ -5,10 +5,11 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import data.RecipesRepository
+import kotlinx.coroutines.launch
 import model.Category
 import model.Recipe
-import java.util.concurrent.Executors
 
 class RecipesListViewModel(application: Application) : AndroidViewModel(application) {
     data class RecipesListStates(
@@ -20,7 +21,6 @@ class RecipesListViewModel(application: Application) : AndroidViewModel(applicat
 
     private val _liveData: MutableLiveData<RecipesListStates> = MutableLiveData()
     val liveData: LiveData<RecipesListStates> = _liveData
-    private val threadPool = Executors.newFixedThreadPool(10)
     private val repository = RecipesRepository()
 
     init {
@@ -28,7 +28,7 @@ class RecipesListViewModel(application: Application) : AndroidViewModel(applicat
     }
 
     fun loadRecipes(arguments: Category) {
-        threadPool.execute {
+        viewModelScope.launch {
             try {
                 val recipes = repository.getRecipesByCategoryId(arguments.id)
                 _liveData.postValue(
@@ -48,10 +48,5 @@ class RecipesListViewModel(application: Application) : AndroidViewModel(applicat
                 )
             }
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        threadPool.shutdown()
     }
 }

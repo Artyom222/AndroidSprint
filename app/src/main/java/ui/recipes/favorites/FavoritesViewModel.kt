@@ -8,12 +8,13 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import data.FAVORITES_KEY
 import data.RecipesRepository
 import data.SHARED_PREFS_NAME
+import kotlinx.coroutines.launch
 import model.Recipe
 import ru.example.androidsprint.R
-import java.util.concurrent.Executors
 
 class FavoritesViewModel(application: Application) : AndroidViewModel(application) {
     data class FavoritesState(
@@ -25,7 +26,6 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
 
     private val _liveData: MutableLiveData<FavoritesState> = MutableLiveData()
     val liveData: LiveData<FavoritesState> = _liveData
-    private val threadPool = Executors.newFixedThreadPool(10)
     private val repository = RecipesRepository()
 
     init {
@@ -39,7 +39,7 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
         val title = getApplication<Application>().getString(R.string.title_favorites)
         val favoriteRecipeIds = getFavorites().mapNotNull { it.toIntOrNull() }.toSet()
 
-        threadPool.execute {
+        viewModelScope.launch {
             try {
                 val favoriteRecipes = repository.getRecipesByIds(favoriteRecipeIds)
                 _liveData.postValue(
@@ -67,10 +67,5 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
         )
         val savedSet = sharedPrefs?.getStringSet(FAVORITES_KEY, emptySet()) ?: emptySet()
         return HashSet(savedSet)
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        threadPool.shutdown()
     }
 }

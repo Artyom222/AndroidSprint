@@ -6,11 +6,12 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import data.FAVORITES_KEY
 import data.RecipesRepository
 import data.SHARED_PREFS_NAME
+import kotlinx.coroutines.launch
 import model.Recipe
-import java.util.concurrent.Executors
 
 class RecipeViewModel(application: Application) : AndroidViewModel(application) {
     data class RecipeState(
@@ -23,7 +24,6 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
 
     private val _liveData: MutableLiveData<RecipeState> = MutableLiveData()
     val liveData: LiveData<RecipeState> = _liveData
-    private val threadPool = Executors.newFixedThreadPool(10)
     private val repository = RecipesRepository()
 
     init {
@@ -35,7 +35,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         val isFavorite = getFavorites().contains(recipeId.toString())
         val portionsCount = _liveData.value?.portionsCount ?: 1
 
-        threadPool.execute {
+        viewModelScope.launch {
             try {
                 val recipe = repository.getRecipeById(recipeId)
                 val recipeImageUrl = recipe?.imageUrl
@@ -101,8 +101,4 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         _liveData.value = currentState.copy(portionsCount = portionsCount)
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        threadPool.shutdown()
-    }
 }

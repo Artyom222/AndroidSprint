@@ -31,17 +31,13 @@ class IngredientsAdapter(var dataSet: List<Ingredient>) :
         val ingredient: Ingredient = dataSet[position]
         viewHolder.binding.tvIngredient.text = ingredient.description.uppercase()
 
-        val quantityText = try {
-            val quantity = BigDecimal(ingredient.quantity)
-            val result = quantity.multiply(BigDecimal(quantityPortions))
-            if (result.stripTrailingZeros().scale() <= 0) {
-                result.toInt().toString()
-            } else {
-                result.setScale(1, RoundingMode.HALF_UP).toString()
-            }
-        } catch (e: NumberFormatException) {
-            ingredient.quantity
-        }
+        val quantityText = ingredient.quantity
+            .toBigDecimalOrNull()
+            ?.multiply(BigDecimal.valueOf(quantityPortions.toLong()))
+            ?.setScale(1, RoundingMode.HALF_UP)
+            ?.stripTrailingZeros()
+            ?.toPlainString()
+            ?: ingredient.quantity
 
         viewHolder.binding.tvQuantity.text =
             "$quantityText ${ingredient.unitOfMeasure.uppercase()}"
