@@ -40,8 +40,6 @@ class CategoriesViewModel(application: Application) : AndroidViewModel(applicati
             try {
                 var categories = repository.getCategoriesFromCache()
                 Log.i("!!!", "Загрузка категорий из кэша ${categories.map { it.title }.toString()}")
-                categories = repository.getCategories()
-                repository.saveCategoriesToCache(categories)
                 _liveData.postValue(
                     CategoriesState(
                         image = image,
@@ -50,7 +48,17 @@ class CategoriesViewModel(application: Application) : AndroidViewModel(applicati
                         errorMessage = null,
                     )
                 )
-
+                categories = repository.getCategories()
+                repository.saveCategoriesToCache(categories)
+                Log.i("!!!", "Обновление категорий в кэше ${categories.map { it.title }.toString()}")
+                _liveData.postValue(
+                    CategoriesState(
+                        image = image,
+                        title = title,
+                        categories = categories,
+                        errorMessage = null,
+                    )
+                )
             } catch (e: Exception) {
                 Log.e("!!!", "Ошибка загрузки категорий", e)
                 _liveData.postValue(
