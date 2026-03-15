@@ -17,13 +17,13 @@ class RecipesRepository(context: Context) {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    val db: AppDatabase = Room.databaseBuilder(
+    private val db: AppDatabase = Room.databaseBuilder(
         context,
         AppDatabase::class.java,
         name = "database-category"
     ).build()
 
-    val categoryDao = db.categoryDao()
+    private val categoryDao = db.categoryDao()
 
     private val service = retrofit.create(RecipeApiService::class.java)
 
