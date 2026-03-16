@@ -23,7 +23,7 @@ class CategoriesViewModel(application: Application) : AndroidViewModel(applicati
 
     private val _liveData: MutableLiveData<CategoriesState> = MutableLiveData()
     val liveData: LiveData<CategoriesState> = _liveData
-    private val repository = RecipesRepository()
+    private val repository = RecipesRepository(application.applicationContext)
 
     init {
         Log.i("!!!", "CategoriesViewModel initialized")
@@ -32,11 +32,25 @@ class CategoriesViewModel(application: Application) : AndroidViewModel(applicati
     fun loadCategories() {
         val image = ContextCompat.getDrawable(
             getApplication<Application>().applicationContext,
-            R.drawable.bcg_categories)
+            R.drawable.bcg_categories
+        )
         val title = getApplication<Application>().getString(R.string.title_ingredients)
+
         viewModelScope.launch {
             try {
-                val categories = repository.getCategories()
+                var categories = repository.getCategoriesFromCache()
+                Log.i("!!!", "Загрузка категорий из кэша ${categories.map { it.title }.toString()}")
+                _liveData.postValue(
+                    CategoriesState(
+                        image = image,
+                        title = title,
+                        categories = categories,
+                        errorMessage = null,
+                    )
+                )
+                categories = repository.getCategories()
+                repository.saveCategoriesToCache(categories)
+                Log.i("!!!", "Обновление категорий в кэше ${categories.map { it.title }.toString()}")
                 _liveData.postValue(
                     CategoriesState(
                         image = image,

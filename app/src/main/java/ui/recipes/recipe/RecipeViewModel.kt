@@ -24,7 +24,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
 
     private val _liveData: MutableLiveData<RecipeState> = MutableLiveData()
     val liveData: LiveData<RecipeState> = _liveData
-    private val repository = RecipesRepository()
+    private val repository = RecipesRepository(application.applicationContext)
 
     init {
         Log.i("!!!", "ViewModel initialized")
