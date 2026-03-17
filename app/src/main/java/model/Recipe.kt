@@ -12,6 +12,7 @@ import androidx.room.ColumnInfo
 @Entity
 data class Recipe(
     @PrimaryKey val id: Int,
+    @ColumnInfo val categoryId: Int,
     @ColumnInfo val title: String,
     @ColumnInfo val ingredients: List<Ingredient>,
     @ColumnInfo val method: List<String>,

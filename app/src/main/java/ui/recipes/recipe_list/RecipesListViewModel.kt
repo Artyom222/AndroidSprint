@@ -30,7 +30,7 @@ class RecipesListViewModel(application: Application) : AndroidViewModel(applicat
     fun loadRecipes(arguments: Category) {
         viewModelScope.launch {
             try {
-                var recipes = repository.getRecipesFromCache().filter(choiceRightRecipes(arguments))
+                var recipes = repository.getRecipesFromCache(arguments.id)
                 Log.i("!!!", "Загрузка списка рецептов из кэша ${recipes.map { it.title }.toString()}")
                 _liveData.postValue(
                     RecipesListStates(
@@ -41,7 +41,7 @@ class RecipesListViewModel(application: Application) : AndroidViewModel(applicat
                     )
                 )
                 recipes = repository.getRecipesByCategoryId(arguments.id)
-                repository.saveRecipesToCache(recipes)
+                repository.saveRecipesToCache(recipes.map { it.copy(categoryId = arguments.id) })
                 _liveData.postValue(
                     RecipesListStates(
                         imageUrl = arguments.imageUrl,
@@ -58,17 +58,6 @@ class RecipesListViewModel(application: Application) : AndroidViewModel(applicat
                     )
                 )
             }
-        }
-    }
-
-    private fun choiceRightRecipes(arguments: Category): (Recipe) -> Boolean {
-        return when (arguments.id) {
-            0 -> { recipe -> recipe.id in 0..99 }
-            1 -> { recipe -> recipe.id in 100..199 }
-            2 -> { recipe -> recipe.id in 200..299 }
-            3 -> { recipe -> recipe.id in 300..399 }
-            4 -> { recipe -> recipe.id in 400..499 }
-            else -> { recipe -> recipe.id in 500..599 }
         }
     }
 }

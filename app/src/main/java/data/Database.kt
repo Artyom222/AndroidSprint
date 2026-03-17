@@ -8,7 +8,7 @@ import model.Category
 import model.Recipe
 import model.RecipesDao
 
-@Database(entities = [Category::class, Recipe::class], version = 2)
+@Database(entities = [Category::class, Recipe::class], version = 3)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun categoryDao(): CategoriesDao
