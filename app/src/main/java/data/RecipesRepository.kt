@@ -62,17 +62,6 @@ class RecipesRepository(context: Context) {
         }
     }
 
-    suspend fun getRecipesByIds(recipesIds: Set<Int>): List<Recipe> {
-        return withContext(Dispatchers.IO) {
-            try {
-                service.getRecipesByIds(recipesIds)
-            } catch (e: IOException) {
-                e.printStackTrace()
-                emptyList()
-            }
-        }
-    }
-
     suspend fun getCategoriesFromCache(): List<Category> {
         return withContext(Dispatchers.IO) {
             categoryDao.getAll()
@@ -88,6 +77,12 @@ class RecipesRepository(context: Context) {
     suspend fun getRecipesFromCache(categoryId: Int): List<Recipe> {
         return withContext(Dispatchers.IO) {
             recipeDao.getRecipesByCategoryId(categoryId)
+        }
+    }
+
+    suspend fun getRecipeFromCache(recipeId: Int): Recipe {
+        return withContext(Dispatchers.IO) {
+            recipeDao.getRecipeById(recipeId)
         }
     }
 

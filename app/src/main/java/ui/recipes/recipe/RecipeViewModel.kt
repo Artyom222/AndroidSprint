@@ -33,9 +33,8 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         val portionsCount = _liveData.value?.portionsCount ?: 1
         viewModelScope.launch {
             try {
-                val isFavorite = repository.getFavoritesRecipesFromCache()
-                    .map { it.id }.contains(recipeId)
-                val recipe = repository.getRecipeById(recipeId)
+                val recipe = repository.getRecipeFromCache(recipeId)
+                val isFavorite = recipe.isFavorite
                 val recipeImageUrl = recipe?.imageUrl
                 _liveData.postValue(
                     RecipeState(
@@ -61,7 +60,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     fun onFavoritesClicked() {
         val favoriteState = _liveData.value ?: return
         val newFavoriteState = !favoriteState.isFavorite
-        val recipeId = _liveData.value.recipe?.id ?: return
+        val recipeId = favoriteState.recipe?.id ?: return
         _liveData.value = favoriteState.copy(isFavorite = newFavoriteState)
         viewModelScope.launch {
             repository.updateFavoriteStatus(recipeId, newFavoriteState)
@@ -72,5 +71,4 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         val currentState = _liveData.value ?: return
         _liveData.value = currentState.copy(portionsCount = portionsCount)
     }
-
 }
