@@ -1,15 +1,12 @@
 package ui.recipes.recipe
 
 import android.app.Application
-import android.content.Context
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import data.FAVORITES_KEY
 import data.RecipesRepository
-import data.SHARED_PREFS_NAME
 import kotlinx.coroutines.launch
 import model.Recipe
 
@@ -32,11 +29,12 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun loadRecipe(recipeId: Int) {
-        val isFavorite = getFavorites().contains(recipeId.toString())
-        val portionsCount = _liveData.value?.portionsCount ?: 1
 
+        val portionsCount = _liveData.value?.portionsCount ?: 1
         viewModelScope.launch {
             try {
+                val isFavorite = repository.getFavoritesRecipesFromCache()
+                    .map { it.id }.contains(recipeId)
                 val recipe = repository.getRecipeById(recipeId)
                 val recipeImageUrl = recipe?.imageUrl
                 _liveData.postValue(
@@ -56,44 +54,18 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
                     )
                 )
             }
+
         }
-    }
-
-    private fun getFavorites(): MutableSet<String> {
-        val sharedPrefs = getApplication<Application>().getSharedPreferences(
-            SHARED_PREFS_NAME, Context.MODE_PRIVATE
-        )
-        val savedSet = sharedPrefs?.getStringSet(FAVORITES_KEY, emptySet()) ?: emptySet()
-        return HashSet(savedSet)
-    }
-
-    private fun saveFavorites(favoriteIds: Set<String>) {
-        val sharedPrefs = getApplication<Application>().getSharedPreferences(
-            SHARED_PREFS_NAME, Context.MODE_PRIVATE
-        ) ?: return
-        with(sharedPrefs.edit()) {
-            putStringSet(FAVORITES_KEY, favoriteIds)
-            apply()
-        }
-    }
-
-    private fun updateFavoriteInStorage(favoriteState: Boolean) {
-        val recipe = _liveData.value?.recipe ?: return
-        val favorites = getFavorites()
-
-        if (favoriteState) {
-            favorites.add(recipe.id.toString())
-        } else {
-            favorites.remove(recipe.id.toString())
-        }
-        saveFavorites(favorites)
     }
 
     fun onFavoritesClicked() {
         val favoriteState = _liveData.value ?: return
         val newFavoriteState = !favoriteState.isFavorite
+        val recipeId = _liveData.value.recipe?.id ?: return
         _liveData.value = favoriteState.copy(isFavorite = newFavoriteState)
-        updateFavoriteInStorage(newFavoriteState)
+        viewModelScope.launch {
+            repository.updateFavoriteStatus(recipeId, newFavoriteState)
+        }
     }
 
     fun updatePortionsCount(portionsCount: Int) {

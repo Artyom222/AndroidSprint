@@ -1,7 +1,6 @@
 package ui.recipes.favorites
 
 import android.app.Application
-import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.Log
 import androidx.core.content.ContextCompat
@@ -9,9 +8,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import data.FAVORITES_KEY
 import data.RecipesRepository
-import data.SHARED_PREFS_NAME
 import kotlinx.coroutines.launch
 import model.Recipe
 import ru.example.androidsprint.R
@@ -37,11 +34,10 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
             getApplication<Application>().applicationContext,
             R.drawable.bcg_categories)
         val title = getApplication<Application>().getString(R.string.title_favorites)
-        val favoriteRecipeIds = getFavorites().mapNotNull { it.toIntOrNull() }.toSet()
 
         viewModelScope.launch {
             try {
-                val favoriteRecipes = repository.getRecipesByIds(favoriteRecipeIds)
+                val favoriteRecipes = repository.getFavoritesRecipesFromCache()
                 _liveData.postValue(
                     FavoritesState(
                         image = image,
@@ -61,11 +57,4 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
-    private fun getFavorites(): MutableSet<String> {
-        val sharedPrefs = getApplication<Application>().getSharedPreferences(
-            SHARED_PREFS_NAME, Context.MODE_PRIVATE
-        )
-        val savedSet = sharedPrefs?.getStringSet(FAVORITES_KEY, emptySet()) ?: emptySet()
-        return HashSet(savedSet)
-    }
 }

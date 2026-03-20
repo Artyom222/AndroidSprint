@@ -97,5 +97,16 @@ class RecipesRepository(context: Context) {
         }
     }
 
+    suspend fun getFavoritesRecipesFromCache(): List<Recipe> {
+        return withContext(Dispatchers.IO) {
+            recipeDao.getFavoriteRecipes()
+        }
+    }
+
+    suspend fun updateFavoriteStatus(recipeId: Int, isFavorite: Boolean) {
+        return withContext(Dispatchers.IO) {
+            recipeDao.updateFavoriteStatus(recipeId, isFavorite)
+        }
+    }
 
 }
