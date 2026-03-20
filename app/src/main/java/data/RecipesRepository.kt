@@ -21,9 +21,11 @@ class RecipesRepository(context: Context) {
         context,
         AppDatabase::class.java,
         name = "database-category"
-    ).build()
+    ).fallbackToDestructiveMigration()
+        .build()
 
     private val categoryDao = db.categoryDao()
+    private val recipeDao = db.recipeDao()
 
     private val service = retrofit.create(RecipeApiService::class.java)
 
@@ -82,4 +84,18 @@ class RecipesRepository(context: Context) {
             categoryDao.insertAll(*categories.toTypedArray())
         }
     }
+
+    suspend fun getRecipesFromCache(categoryId: Int): List<Recipe> {
+        return withContext(Dispatchers.IO) {
+            recipeDao.getRecipesByCategoryId(categoryId)
+        }
+    }
+
+    suspend fun saveRecipesToCache(recipes: List<Recipe>) {
+        return withContext(Dispatchers.IO) {
+            recipeDao.insertAll(*recipes.toTypedArray())
+        }
+    }
+
+
 }

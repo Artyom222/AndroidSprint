@@ -30,7 +30,18 @@ class RecipesListViewModel(application: Application) : AndroidViewModel(applicat
     fun loadRecipes(arguments: Category) {
         viewModelScope.launch {
             try {
-                val recipes = repository.getRecipesByCategoryId(arguments.id)
+                var recipes = repository.getRecipesFromCache(arguments.id)
+                Log.i("!!!", "Загрузка списка рецептов из кэша ${recipes.map { it.title }.toString()}")
+                _liveData.postValue(
+                    RecipesListStates(
+                        imageUrl = arguments.imageUrl,
+                        titleCategory = arguments.title,
+                        recipes = recipes,
+                        errorMessage = null,
+                    )
+                )
+                recipes = repository.getRecipesByCategoryId(arguments.id)
+                repository.saveRecipesToCache(recipes.map { it.copy(categoryId = arguments.id) })
                 _liveData.postValue(
                     RecipesListStates(
                         imageUrl = arguments.imageUrl,
