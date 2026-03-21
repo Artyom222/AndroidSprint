@@ -17,4 +17,5 @@ data class Recipe(
     @ColumnInfo val ingredients: List<Ingredient>,
     @ColumnInfo val method: List<String>,
     @ColumnInfo val imageUrl: String,
+    @ColumnInfo val isFavorite: Boolean,
 ) : Parcelable

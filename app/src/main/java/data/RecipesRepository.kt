@@ -62,17 +62,6 @@ class RecipesRepository(context: Context) {
         }
     }
 
-    suspend fun getRecipesByIds(recipesIds: Set<Int>): List<Recipe> {
-        return withContext(Dispatchers.IO) {
-            try {
-                service.getRecipesByIds(recipesIds)
-            } catch (e: IOException) {
-                e.printStackTrace()
-                emptyList()
-            }
-        }
-    }
-
     suspend fun getCategoriesFromCache(): List<Category> {
         return withContext(Dispatchers.IO) {
             categoryDao.getAll()
@@ -91,11 +80,28 @@ class RecipesRepository(context: Context) {
         }
     }
 
+    suspend fun getRecipeFromCache(recipeId: Int): Recipe {
+        return withContext(Dispatchers.IO) {
+            recipeDao.getRecipeById(recipeId)
+        }
+    }
+
     suspend fun saveRecipesToCache(recipes: List<Recipe>) {
         return withContext(Dispatchers.IO) {
             recipeDao.insertAll(*recipes.toTypedArray())
         }
     }
 
+    suspend fun getFavoritesRecipesFromCache(): List<Recipe> {
+        return withContext(Dispatchers.IO) {
+            recipeDao.getFavoriteRecipes()
+        }
+    }
+
+    suspend fun updateFavoriteStatus(recipeId: Int, isFavorite: Boolean) {
+        return withContext(Dispatchers.IO) {
+            recipeDao.updateFavoriteStatus(recipeId, isFavorite)
+        }
+    }
 
 }
