@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/favoritesFragment"
-        android:name="ui.recipes.favorites.FavoritesFragment"
+        android:name="dev.androidsprin.recipes.ui.recipes.favorites.FavoritesFragment"
         android:label="fragment_favorites"
         tools:layout="@layout/fragment_favorites" >
         <action
@@ -27,7 +27,7 @@
     </fragment>
     <fragment
         android:id="@+id/categoriesListFragment"
-        android:name="ui.categories.CategoriesListFragment"
+        android:name="dev.androidsprin.recipes.ui.categories.CategoriesListFragment"
         android:label="fragment_list_categories"
         tools:layout="@layout/fragment_list_categories" >
         <action
@@ -47,7 +47,7 @@
     </fragment>
     <fragment
         android:id="@+id/recipeFragment"
-        android:name="ui.recipes.recipe.RecipeFragment"
+        android:name="dev.androidsprin.recipes.ui.recipes.recipe.RecipeFragment"
         android:label="fragment_recipe"
         tools:layout="@layout/fragment_recipe" >
         <argument android:name="recipeId"
@@ -69,7 +69,7 @@
     </fragment>
     <fragment
         android:id="@+id/recipesListFragment"
-        android:name="ui.recipes.recipe_list.RecipesListFragment"
+        android:name="dev.androidsprin.recipes.ui.recipes.recipe_list.RecipesListFragment"
         android:label="fragment_recipes_list"
         tools:layout="@layout/fragment_recipes_list" >
         <action
@@ -95,6 +95,6 @@
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <argument
             android:name="category"
-            app:argType="model.Category" />
+            app:argType="dev.androidsprin.recipes.model.Category" />
     </fragment>
 </navigation>
