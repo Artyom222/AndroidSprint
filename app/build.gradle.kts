@@ -3,8 +3,9 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.safe.args.kotlin)
     id("kotlin-parcelize")
-    kotlin("plugin.serialization") version "2.0.21"
-    id("com.google.devtools.ksp") version "2.0.21-1.0.28"
+    kotlin("plugin.serialization")
+    id("com.google.devtools.ksp")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -45,7 +46,11 @@ android {
 }
 
 dependencies {
+
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
     implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
     ksp(libs.room.compiler)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.core)

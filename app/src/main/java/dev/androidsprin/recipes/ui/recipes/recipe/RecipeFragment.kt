@@ -14,30 +14,25 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.material.divider.MaterialDividerItemDecoration
-import dev.androidsprin.recipes.RecipesApplication
 import dev.androidsprin.recipes.data.RECIPES_API
 import dev.androidsprin.recipes.model.Recipe
 import ru.example.androidsprint.R
 import ru.example.androidsprint.databinding.FragmentRecipeBinding
+import dagger.hilt.android.AndroidEntryPoint
+import kotlin.getValue
 
+@AndroidEntryPoint
 class RecipeFragment : Fragment() {
 
     private var _binding: FragmentRecipeBinding? = null
     private val binding: FragmentRecipeBinding
         get() = _binding
             ?: throw IllegalStateException("Binding for FragmentRecipeBinding must not be null")
-    lateinit var viewModel: RecipeViewModel
+    private val viewModel: RecipeViewModel by viewModels()
 
     private lateinit var ingredientAdapter: IngredientsAdapter
     private lateinit var methodAdapter: MethodAdapter
     private val arg: RecipeFragmentArgs by navArgs()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val appContainer = (requireActivity().application as RecipesApplication).appContainer
-        viewModel = appContainer.recipeViewModelFactory.create()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
