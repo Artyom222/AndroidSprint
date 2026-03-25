@@ -18,11 +18,13 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 class RecipeModule {
 
+    @Singleton
     @Provides
     fun provideDatabase(@ApplicationContext context: Context): AppDatabase =
         Room.databaseBuilder(
@@ -38,6 +40,7 @@ class RecipeModule {
     @Provides
     fun provideRecipesDao(appDatabase: AppDatabase): RecipesDao = appDatabase.recipeDao()
 
+    @Singleton
     @Provides
     fun provideHttpClient(): OkHttpClient {
         val logging = HttpLoggingInterceptor()
@@ -47,6 +50,7 @@ class RecipeModule {
             .build()
     }
 
+    @Singleton
     @Provides
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         val retrofit = Retrofit.Builder()
