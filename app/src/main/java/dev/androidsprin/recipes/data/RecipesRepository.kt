@@ -6,15 +6,18 @@ import dev.androidsprin.recipes.model.Category
 import dev.androidsprin.recipes.model.Recipe
 import dev.androidsprin.recipes.model.RecipesDao
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.IOException
+import javax.inject.Inject
 
-class RecipesRepository(
+class RecipesRepository @Inject constructor(
     private val recipesDao: RecipesDao,
     private val categoriesDao: CategoriesDao,
     private val recipeApiService: RecipeApiService,
-    private val ioDispatcher: CoroutineDispatcher,
 ) {
+
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 
     suspend fun getCategories(): List<Category> {
         return withContext(ioDispatcher) {

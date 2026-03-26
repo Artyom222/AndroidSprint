@@ -1,18 +1,19 @@
 package dev.androidsprin.recipes.ui.recipes.recipe_list
 
-import android.app.Application
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.androidsprin.recipes.data.RecipesRepository
 import dev.androidsprin.recipes.model.Category
 import dev.androidsprin.recipes.model.Recipe
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class RecipesListViewModel(
+@HiltViewModel
+class RecipesListViewModel @Inject constructor(
     private val recipesRepository: RecipesRepository,
 ) : ViewModel() {
     data class RecipesListStates(

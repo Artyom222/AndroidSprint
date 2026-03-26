@@ -1,6 +1,5 @@
 package dev.androidsprin.recipes.ui.recipes.favorites
 
-import android.app.Application
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,26 +9,20 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import dev.androidsprin.recipes.RecipesApplication
+import dagger.hilt.android.AndroidEntryPoint
 import dev.androidsprin.recipes.ui.recipes.recipe_list.RecipesListAdapter
 import ru.example.androidsprint.R
 import ru.example.androidsprint.databinding.FragmentFavoritesBinding
 import kotlin.getValue
 
+@AndroidEntryPoint
 class FavoritesFragment : Fragment() {
     private var _binding: FragmentFavoritesBinding? = null
     private val binding: FragmentFavoritesBinding
         get() = _binding
             ?: throw IllegalStateException("Binding for FragmentFavoritesBinding must not be null")
-    lateinit var viewModel: FavoritesViewModel
+    private val viewModel: FavoritesViewModel by viewModels()
     private lateinit var recipesAdapter: RecipesListAdapter
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val appContainer = (requireActivity().application as RecipesApplication).appContainer
-        viewModel = appContainer.favoritesViewModelFactory.create()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

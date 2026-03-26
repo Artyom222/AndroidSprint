@@ -11,27 +11,22 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import dagger.hilt.android.AndroidEntryPoint
 import dev.androidsprin.recipes.RecipesApplication
 import dev.androidsprin.recipes.data.RECIPES_API
 import ru.example.androidsprint.R
 import ru.example.androidsprint.databinding.FragmentRecipesListBinding
 import kotlin.getValue
 
+@AndroidEntryPoint
 class RecipesListFragment : Fragment() {
     private var _binding: FragmentRecipesListBinding? = null
     private val binding: FragmentRecipesListBinding
         get() = _binding
             ?: throw IllegalStateException("Binding for FragmentRecipesListBinding must not be null")
-    lateinit var viewModel: RecipesListViewModel
+    private val viewModel: RecipesListViewModel by viewModels()
     private lateinit var recipesAdapter: RecipesListAdapter
     private val arg: RecipesListFragmentArgs by navArgs()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val appContainer = (requireActivity().application as RecipesApplication).appContainer
-        viewModel = appContainer.recipesListViewModelFactory.create()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
